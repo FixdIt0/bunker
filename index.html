@@ -218,6 +218,13 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
     <h1 class="r delay-1">Stockpile<br>real<br><em>resources.</em></h1>
     <p class="r delay-2">Creator fees automatically convert into tokenized gold, silver and oil. Distributed to every holder, every 30 minutes. Fully on chain. The new civil defense.</p>
     <div class="r delay-3"><a href="#threat" class="btn btn-g">&#9762; Begin the Briefing</a></div>
+    <div class="r delay-4" style="margin-top:32px;display:flex;align-items:center;gap:12px">
+      <span style="width:8px;height:8px;background:var(--g);border-radius:50%;display:inline-block;animation:pulse 2s ease-in-out infinite"></span>
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--td)">Next Resupply Airdrop</div>
+        <div id="countdown" style="font-family:var(--mono);font-size:28px;font-weight:700;color:var(--g);font-variant-numeric:tabular-nums;letter-spacing:2px">30:00</div>
+      </div>
+    </div>
   </div>
   <div class="doom-clock r delay-2">
     <svg viewBox="0 0 400 400">
@@ -435,6 +442,21 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 
 <script>
 const API_BASE='https://bunker-production-62d9.up.railway.app';
+
+// Countdown — syncs to 30-min cycle (XX:00 and XX:30)
+(function(){
+  const el=document.getElementById('countdown');
+  function tick(){
+    const now=new Date();
+    const m=now.getMinutes(),s=now.getSeconds();
+    const inCycle=((m%30)*60)+s;
+    const left=1800-inCycle;
+    const mm=String(Math.floor(left/60)).padStart(2,'0');
+    const ss=String(left%60).padStart(2,'0');
+    el.textContent=mm+':'+ss;
+  }
+  tick();setInterval(tick,1000);
+})();
 
 // Scroll reveals
 const io=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('v')})},{threshold:.12});
