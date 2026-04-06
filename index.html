@@ -77,7 +77,7 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);overflow-x:hidd
 .commodity.flip .comm-visual{order:2}
 .commodity.flip .comm-text{order:1}
 .comm-visual{display:flex;align-items:center;justify-content:center;position:relative;min-height:160px}
-.comm-img{width:120px;height:120px;border:none;border-radius:0;object-fit:cover;box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;z-index:2}
+.comm-img{width:120px;height:auto;border:none;border-radius:0;object-fit:contain;box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;z-index:2}
 .comm-ring{position:absolute;width:140px;height:140px;border:1px solid rgba(74,103,65,.1);border-radius:50%;animation:ringPulse 3s ease-in-out infinite}
 .comm-ring:nth-child(2){width:170px;height:170px;animation-delay:.5s;opacity:.5}
 @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.12}50%{transform:scale(1.04);opacity:.06}}
@@ -145,7 +145,7 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
   .commodity.flip{grid-template-columns:1fr}
   .commodity.flip .comm-visual{order:0}
   .commodity.flip .comm-text{order:0}
-  .comm-img{width:80px;height:80px}
+  .comm-img{width:80px;height:auto}
   .comm-ring{width:110px;height:110px}
   .comm-ring:nth-child(2){width:130px;height:130px}
   .hero-art{display:none}
