@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$BUNKER — Prepare for War</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#08080a;--surface:#0e0e11;--surface2:#141418;
+    --border:rgba(74,103,65,0.08);--border-hard:rgba(74,103,65,0.15);
+    --amber:#4a6741;--amber-bright:#5c8a50;--amber-dim:rgba(74,103,65,0.06);
+    --amber-glow:rgba(74,103,65,0.12);--red:#6b1a1a;
+    --text:#d4cfc2;--text-dim:#6a6560;--text-muted:#3a3835;
+    --mono:'JetBrains Mono',monospace;--display:'Outfit',sans-serif;
+  }
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--display);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+
+  /* GRID BG */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(74,103,65,0.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(74,103,65,0.02) 1px,transparent 1px);
+    background-size:80px 80px;
+  }
+
+  /* SCANLINES */
+  .scanlines{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(74,103,65,0.015) 2px,rgba(74,103,65,0.015) 4px);
+  }
+
+  /* CROSSHAIR CURSOR */
+  body{cursor:crosshair}
+  a,button,.btn,.ca-addr,.res-row{cursor:crosshair}
+
+  /* STENCIL TEXT */
+  .stencil{font-family:var(--mono);font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--text-muted);font-size:11px}
+
+  /* DANGER STRIPE */
+  .danger-stripe{
+    height:4px;
+    background:repeating-linear-gradient(45deg,var(--amber),var(--amber) 10px,transparent 10px,transparent 20px);
+    opacity:0.15;
+  }
+
+  /* RED ALERT BAR */
+  .alert-bar{
+    background:var(--red);padding:8px 20px;text-align:center;
+    font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;
+    color:#e8a0a0;animation:alertPulse 2s ease-in-out infinite;
+  }
+  @keyframes alertPulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+  /* REDACTED TEXT */
+  .redacted{
+    background:var(--text-dim);color:var(--text-dim);padding:0 4px;
+    user-select:none;font-family:var(--mono);font-size:12px;letter-spacing:1px;
+  }
+
+  /* SIREN BORDER */
+  .siren-border{
+    border-left:3px solid var(--red);padding-left:16px;
+  }
+
+  /* FALLOUT PARTICLES */
+  .particle{
+    position:fixed;width:2px;height:2px;background:var(--amber);border-radius:50%;
+    pointer-events:none;z-index:0;opacity:0;
+    animation:fallout 8s linear infinite;
+  }
+  @keyframes fallout{
+    0%{opacity:0;transform:translateY(-10px)}
+    10%{opacity:.3}
+    90%{opacity:.15}
+    100%{opacity:0;transform:translateY(100vh)}
+  }
+
+  /* COUNTDOWN FLASH */
+  @keyframes countFlash{0%,100%{color:var(--amber)}50%{color:var(--red)}}
+  .flash-val{animation:countFlash 1.5s ease-in-out infinite}
+  /* NOISE */
+  body::after{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.03;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* GLOW */
+  .hero-glow{
+    position:fixed;top:0;left:0;width:100%;height:100vh;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 20% 30%,rgba(74,103,65,0.04) 0%,transparent 70%),
+               radial-gradient(ellipse 40% 40% at 80% 70%,rgba(74,103,65,0.02) 0%,transparent 60%);
+    animation:heroBreath 60s ease-in-out infinite;
+  }
+  @keyframes heroBreath{
+    0%,100%{opacity:1;filter:hue-rotate(0deg)}
+    25%{opacity:.6}
+    50%{opacity:1;filter:hue-rotate(5deg)}
+    75%{opacity:.7}
+  }
+
+  .page{position:relative;z-index:1}
+
+  /* CRT VIGNETTE */
+  .crt-vignette{
+    position:fixed;inset:0;z-index:999;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.35) 100%);
+  }
+
+  /* CORNER TICKS */
+  .ticked{position:relative}
+  .ticked::before,.ticked::after,
+  .ticked .tick-bl,.ticked .tick-br{
+    position:absolute;width:12px;height:12px;pointer-events:none;
+  }
+  .ticked::before{top:-1px;left:-1px;border-top:1px solid var(--amber);border-left:1px solid var(--amber);content:''}
+  .ticked::after{top:-1px;right:-1px;border-top:1px solid var(--amber);border-right:1px solid var(--amber);content:''}
+  .tick-bl{bottom:-1px;left:-1px;border-bottom:1px solid var(--amber);border-left:1px solid var(--amber)}
+  .tick-br{bottom:-1px;right:-1px;border-bottom:1px solid var(--amber);border-right:1px solid var(--amber)}
+
+  /* LABEL */
+  .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber)}
+
+  /* HERO */
+  .hero{
+    min-height:100dvh;display:grid;grid-template-columns:1fr 1fr;
+    align-items:center;gap:60px;padding:60px 60px 80px;
+    max-width:1200px;margin:0 auto;
+  }
+  .hero-text h1{
+    font-family:var(--display);font-size:clamp(36px,5vw,58px);font-weight:800;
+    line-height:1.05;letter-spacing:-1.5px;margin:16px 0 20px;text-transform:uppercase;
+  }
+  .hero-text h1 span{color:var(--amber);text-shadow:0 0 40px rgba(74,103,65,0.3)}
+  .hero-text p{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:32px}
+  .hero-actions{display:flex;gap:10px}
+
+  .btn{
+    padding:10px 24px;font-family:var(--mono);font-size:12px;font-weight:600;
+    letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;
+    border:none;cursor:pointer;transition:all .2s;display:inline-block;
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--amber);color:var(--bg)}
+  .btn-primary:hover{background:var(--amber-bright);box-shadow:0 0 20px rgba(74,103,65,0.2)}
+  .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-hard)}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--text)}
+
+  /* HERO RIGHT - RESOURCE STACK */
+  .resource-stack{display:flex;flex-direction:column;gap:8px}
+  .res-row{
+    display:flex;align-items:center;gap:14px;
+    padding:14px 18px;background:var(--surface);border:1px solid var(--border);
+    transition:all .25s;
+  }
+  .res-row:hover{border-color:var(--border-hard);background:var(--surface2);transform:translateY(-2px);box-shadow:0 0 16px rgba(74,103,65,0.06)}
+  .res-row svg{width:28px;height:28px;flex-shrink:0;color:var(--amber)}
+  .res-info{flex:1}
+  .res-name{font-weight:600;font-size:14px}
+  .res-ticker{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px}
+  .res-tag{
+    font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+    color:#7a9a5e;background:rgba(58,90,44,0.2);padding:3px 8px;
+  }
+
+  /* DIVIDER */
+  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);margin:0 auto}
+
+  /* STATS */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--border);border:1px solid var(--border);
+    max-width:1200px;margin:0 auto;
+  }
+  .stat{background:var(--bg);padding:32px 24px;text-align:center}
+  .stat-val{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--amber);font-variant-numeric:tabular-nums}
+  .stat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px}
+
+  /* SECTION */
+  .section{max-width:1200px;margin:0 auto;padding:100px 60px}
+  .section h2{font-size:clamp(24px,3.5vw,38px);font-weight:700;letter-spacing:-0.5px;margin:12px 0 12px;text-transform:uppercase}
+  .section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:48px}
+
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);counter-reset:step}
+  .step{background:var(--bg);padding:32px 24px;counter-increment:step;position:relative}
+  .step::before{
+    content:"0" counter(step);font-family:var(--mono);font-size:11px;font-weight:600;
+    color:var(--amber);letter-spacing:1px;display:block;margin-bottom:16px;
+  }
+  .step h3{font-size:15px;font-weight:600;margin-bottom:8px}
+  .step p{font-size:13px;color:var(--text-dim);line-height:1.6}
+
+  /* CA */
+  .ca-section{text-align:center;padding:80px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+  .ca-addr{
+    font-family:var(--mono);font-size:clamp(11px,2vw,15px);color:var(--amber);
+    cursor:pointer;padding:14px 28px;border:1px dashed var(--border-hard);
+    display:inline-block;transition:all .2s;word-break:break-all;letter-spacing:0.5px;
+  }
+  .ca-addr:hover{background:var(--amber-dim);border-color:var(--amber)}
+  .ca-addr:active{transform:translateY(1px)}
+  .link-row{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+
+  /* FOOTER */
+  footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border)}
+  .powered{display:flex;justify-content:center;gap:28px;margin-bottom:14px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+  footer p{font-size:12px;color:var(--text-dim)}
+
+  /* TICKER */
+  .ticker{overflow:hidden;border-bottom:1px solid var(--border);padding:10px 0;background:var(--surface)}
+  .ticker-track{display:flex;gap:48px;animation:tick 50s linear infinite;width:max-content;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;will-change:transform}
+  .ticker-track span{color:var(--amber)}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* STAGGERED HERO LOAD */
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .hero-text>*{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) both}
+  .hero-text>*:nth-child(1){animation-delay:.15s}
+  .hero-text>*:nth-child(2){animation-delay:.3s}
+  .hero-text>*:nth-child(3){animation-delay:.45s}
+  .hero-text>*:nth-child(4){animation-delay:.6s}
+  .hero-text>*:nth-child(5){animation-delay:.75s}
+  .resource-stack{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) .5s both}
+
+  /* MOBILE */
+  @media(max-width:768px){
+    .hero{grid-template-columns:1fr;padding:40px 24px 60px;gap:40px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:1fr}
+    .section{padding:60px 24px}
+  }
+  @media(max-width:480px){
+    .stats{grid-template-columns:1fr}
+    .hero-actions{flex-direction:column}
+    .btn{width:100%;text-align:center}
+  }
+  /* INTEL SECTION */
+  .intel-section{max-width:1200px;margin:0 auto;padding:80px 60px;border-top:1px solid var(--border)}
+  .intel-section .label{margin-bottom:12px}
+  .intel-section h2{font-size:clamp(24px,3.5vw,38px);font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;text-transform:uppercase}
+  .intel-section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:40px}
+  .wallet-connect-box{padding:32px;background:var(--surface);border:1px solid var(--border);margin-bottom:32px;text-align:center}
+  .wallet-connect-box .btn{margin-top:12px}
+  .wallet-status{display:none;text-align:left}
+  .wallet-status.active{display:block}
+  .wallet-addr{font-family:var(--mono);font-size:13px;color:var(--amber);padding:10px 14px;background:var(--surface);border:1px solid var(--border);margin-bottom:24px;display:inline-block}
+  .holdings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px}
+  .holding{background:var(--bg);padding:24px 18px;text-align:center}
+  .holding-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--amber)}
+  .holding-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+  .payout-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+  .payout-table th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-hard);color:var(--amber);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+  .payout-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-dim)}
+  .payout-table tr:hover td{background:var(--amber-dim)}
+  @media(max-width:768px){.intel-section{padding:60px 24px}.holdings-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hero-glow"></div>
+<div class="scanlines"></div>
+<div class="crt-vignette"></div>
+<div class="page">
+
+<!-- ALERT -->
+<div class="alert-bar">&#9762; Civil Defense Broadcast — Resource hoarding detected across Eastern Bloc — Secure your reserves &#9762;</div>
+
+<div class="danger-stripe"></div>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <div>&#9762; GOLD <span>+2.4%</span></div><div>&#9762; SILVER <span>+1.8%</span></div><div>&#9762; CRUDE OIL <span>-0.3%</span></div><div>&#9762; EXXON <span>+0.6%</span></div><div>&#9762; CHEVRON <span>+0.4%</span></div><div class="stencil">CLASSIFIED — EYES ONLY</div>
+    <div>&#9762; GOLD <span>+2.4%</span></div><div>&#9762; SILVER <span>+1.8%</span></div><div>&#9762; CRUDE OIL <span>-0.3%</span></div><div>&#9762; EXXON <span>+0.6%</span></div><div>&#9762; CHEVRON <span>+0.4%</span></div><div class="stencil">CLASSIFIED — EYES ONLY</div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="label">&#9762; Fallout Shelter Program — Est. 2026</div>
+    <h1>Duck and cover<br>won't save you. <span>Gold will.</span></h1>
+    <p>In 1961, the US government told citizens to hide under desks. We say: stockpile real assets. Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
+    <div class="siren-border stencil" style="margin-bottom:20px;color:var(--text-dim);padding:8px 16px">
+      Defcon Level: <span style="color:#c44">2</span> &nbsp;|&nbsp; Iron Curtain Status: <span style="color:#c44">Active</span> &nbsp;|&nbsp; Geiger Reading: <span style="color:var(--amber)">Elevated</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">&#9762; Enter the Shelter</a>
+      <a href="#ops" class="btn btn-ghost">&#9670; Read the Dossier</a>
+    </div>
+  </div>
+  <div class="resource-stack" style="position:relative">
+    <div style="position:absolute;top:-30px;right:0" class="stencil">&#9670; Inventory Manifest &#9670;</div>
+    <div class="res-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 9h3.5a2 2 0 010 4H10m0 0h3a2 2 0 010 4H9m1-8v-1.5m0 11V17"/></svg>
+      <div class="res-info"><div class="res-name">Gold</div><div class="res-ticker">GLDon &nbsp;<span style="color:#c44;font-size:9px">FORT KNOX RESERVES DECLINING</span></div></div>
+      <div class="res-tag">Secured</div>
+    </div>
+    <div class="res-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.5 6h6.5l-5 4 2 6.5L12 16l-6 3.5 2-6.5-5-4h6.5z"/></svg>
+      <div class="res-info"><div class="res-name">Silver</div><div class="res-ticker">SLVon &nbsp;<span style="color:#c44;font-size:9px">INDUSTRIAL DEMAND SURGING</span></div></div>
+      <div class="res-tag">Secured</div>
+    </div>
+    <div class="res-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M6 8h12M10 12h4m-2-2v4"/></svg>
+      <div class="res-info"><div class="res-name">Crude Oil</div><div class="res-ticker">USOon &nbsp;<span style="color:#c44;font-size:9px">1973 EMBARGO REPEATING</span></div></div>
+      <div class="res-tag">Secured</div>
+    </div>
+    <div class="res-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="res-info"><div class="res-name">Exxon Mobil</div><div class="res-ticker">XOMx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
+      <div class="res-tag">Secured</div>
+    </div>
+    <div class="res-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10l8-6 8 6v10H4z"/><path d="M9 20v-6h6v6"/></svg>
+      <div class="res-info"><div class="res-name">Chevron</div><div class="res-ticker">CVXx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
+      <div class="res-tag">Secured</div>
+    </div>
+    <div style="margin-top:8px;text-align:right" class="stencil"><span style="color:var(--red)">&#9762;</span> Scarcity Index: Cuban Missile Crisis Levels</div>
+  </div>
+</section>
+
+<div class="danger-stripe"></div>
+
+<div class="stats reveal">
+  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">War Chest</div></div>
+  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Reserves Secured</div></div>
+  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Shelter Occupants</div></div>
+  <div class="stat"><div class="stat-val flash-val">30:00</div><div class="stat-lbl">Next Resupply</div></div>
+</div>
+
+<div class="danger-stripe"></div>
+
+<div class="divider" style="margin:80px auto"></div>
+
+<section class="section reveal" id="stockpile">
+  <div class="label">&#9762; The Stockpile</div>
+  <h2>History repeats. The prepared survive.</h2>
+  <p>1962: Khrushchev stockpiled missiles. Kennedy stockpiled resolve. The smart money stockpiled gold. In every crisis since — oil embargo '73, Soviet collapse '91, every war, every panic — commodities were the last thing standing. The bunker runs that same playbook, on-chain.</p>
+  <div class="siren-border stencil" style="color:var(--text-dim);padding:8px 16px;margin-bottom:16px">
+    <span style="color:#c44">&#9762;</span> Gold since 1971 Nixon shock: <span style="color:var(--amber)">+8,200%</span> &nbsp;|&nbsp; Fiat purchasing power: <span style="color:#c44">-97%</span> &nbsp;|&nbsp; Oil crises: <span class="redacted">RECURRING</span>
+  </div>
+</section>
+
+<section class="section reveal" id="ops">
+  <div class="label">&#9670; Dossier — Operation Resupply</div>
+  <h2>Four phases. Mutually assured accumulation.</h2>
+  <p>Like the dead hand system — once activated, it runs without human intervention. No launch codes required.</p>
+  <div class="steps ticked">
+    <div class="tick-bl"></div><div class="tick-br"></div>
+    <div class="step"><h3>Enter the shelter</h3><p>Acquire $BUNKER on Jupiter. One transaction. The blast door closes behind you.</p></div>
+    <div class="step"><h3>Intercept the signal</h3><p>Every trade generates creator fees. They're captured like intercepted radio transmissions — straight into the war chest.</p></div>
+    <div class="step"><h3>Seize the reserves</h3><p>The war chest auto-acquires gold, silver, crude oil, and energy positions. Like the Berlin airlift, but for your portfolio.</p></div>
+    <div class="step"><h3>Resupply airdrop</h3><p>Every 30 minutes, real tokenized commodities drop into your wallet. The shelter provides. Hold and accumulate.</p></div>
+  </div>
+</section>
+
+<div class="danger-stripe"></div>
+
+<section class="ca-section reveal">
+  <div class="stencil" style="margin-bottom:8px">&#9670; Classified &#9670;</div>
+  <div class="label" style="margin-bottom:16px">Contract Address</div>
+  <div class="ca-addr" onclick="navigator.clipboard.writeText('TBA');this.textContent='COPIED';setTimeout(()=>this.textContent='TBA',1500)">TBA</div>
+  <div class="link-row">
+    <a href="#" class="btn btn-primary">&#9654; Jupiter</a>
+    <a href="#" class="btn btn-ghost">&#9670; DexScreener</a>
+    <a href="#" class="btn btn-ghost">&#9670; Pump.fun</a>
+    <a href="https://x.com/" class="btn btn-ghost" target="_blank">&#9670; X</a>
+  </div>
+</section>
+
+<section class="intel-section reveal" id="intel">
+  <div class="label">&#9762; Operative Status</div>
+  <h2>Field Intelligence</h2>
+  <p>Authenticate your identity to access classified supply manifests and payout records. Phantom clearance required.</p>
+
+  <div class="wallet-connect-box ticked" id="walletConnectBox">
+    <div class="tick-bl"></div><div class="tick-br"></div>
+    <div class="stencil" style="margin-bottom:12px">&#9670; Authentication Required &#9670;</div>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px">No operative credentials detected. Connect your Phantom wallet to access field intelligence.</p>
+    <button class="btn btn-primary" id="connectBtn" onclick="document.getElementById('walletConnectBox').style.display='none';document.getElementById('walletStatus').classList.add('active')">&#9762; Connect Phantom</button>
+  </div>
+
+  <div class="wallet-status" id="walletStatus">
+    <div class="stencil" style="margin-bottom:12px">&#9670; Operative Identified &#9670;</div>
+    <div class="wallet-addr">7xKp...F3mQ</div>
+
+    <div class="stencil" style="margin-bottom:8px">Commodity Holdings</div>
+    <div class="holdings-grid">
+      <div class="holding"><div class="holding-val">1,247</div><div class="holding-lbl">$BUNKER</div></div>
+      <div class="holding"><div class="holding-val">0.034</div><div class="holding-lbl">Gold (GLDon)</div></div>
+      <div class="holding"><div class="holding-val">1.82</div><div class="holding-lbl">Silver (SLVon)</div></div>
+    </div>
+    <div class="holdings-grid" style="margin-bottom:32px">
+      <div class="holding"><div class="holding-val">0.15</div><div class="holding-lbl">Crude (USOon)</div></div>
+      <div class="holding"><div class="holding-val">0.008</div><div class="holding-lbl">Exxon (XOMx)</div></div>
+      <div class="holding"><div class="holding-val">0.005</div><div class="holding-lbl">Chevron (CVXx)</div></div>
+    </div>
+
+    <div class="stencil" style="margin-bottom:8px">Recent Resupply Drops</div>
+    <table class="payout-table">
+      <thead><tr><th>Timestamp</th><th>Asset</th><th>Amount</th><th>TX</th></tr></thead>
+      <tbody>
+        <tr><td>2026-01-15 14:30</td><td>GLDon</td><td>0.012</td><td style="color:var(--amber)">4xR...9kP</td></tr>
+        <tr><td>2026-01-15 14:00</td><td>SLVon</td><td>0.64</td><td style="color:var(--amber)">8mT...2wQ</td></tr>
+        <tr><td>2026-01-15 13:30</td><td>USOon</td><td>0.05</td><td style="color:var(--amber)">Lp3...7nR</td></tr>
+        <tr><td>2026-01-15 13:00</td><td>XOMx</td><td>0.003</td><td style="color:var(--amber)">9vK...4jS</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer class="reveal">
+  <div class="powered"><span>Solana</span><span>Jupiter</span><span>Ondo</span><span>xStocks</span></div>
+  <p class="stencil" style="color:var(--text-dim)">$BUNKER — In every crisis since 1945, commodities survived. Will you?</p>
+  <p style="font-size:11px;color:var(--text-muted);margin-top:8px;font-family:var(--mono)">&#9762; This is not a drill. The Doomsday Clock reads 90 seconds to midnight. &#9762;</p>
+</footer>
+
+</div>
+
+<script>
+const o=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>o.observe(el));
+for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(6+Math.random()*8)+'s';p.style.animationDelay=(Math.random()*12)+'s';document.body.appendChild(p)}
+</script>
+</body>
+</html>
