@@ -10,532 +10,298 @@
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
     --bg:#0a0b08;--surface:#111210;--surface2:#181a15;
-    --border:rgba(74,103,65,0.1);--border-hard:rgba(74,103,65,0.18);
-    --amber:#4a6741;--amber-bright:#5c8a50;--amber-dim:rgba(74,103,65,0.06);
-    --amber-glow:rgba(74,103,65,0.12);--red:#6b1a1a;
-    --text:#e0dbd0;--text-dim:#8a8475;--text-muted:#4a4540;
-    --mud:#2a2218;--mud-light:#3d3425;
-    --mono:'JetBrains Mono',monospace;--display:'Outfit',sans-serif;
+    --border:rgba(74,103,65,0.12);--border-hard:rgba(74,103,65,0.22);
+    --green:#5c8a50;--green-dim:#4a6741;--green-bg:rgba(74,103,65,0.06);
+    --red:#8b2020;--mud:#2a2218;
+    --text:#e0dbd0;--text-dim:#9a9485;--text-muted:#4a4540;
+    --mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif;
   }
-  body{
-    background:var(--bg);color:var(--text);font-family:var(--display);
-    line-height:1.6;-webkit-font-smoothing:antialiased;
-  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-  /* GRID BG */
-  body::before{
-    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:
-      linear-gradient(rgba(74,103,65,0.02) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(74,103,65,0.02) 1px,transparent 1px);
-    background-size:80px 80px;
-  }
+  /* OVERLAYS */
+  .grain{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .vignette{position:fixed;inset:0;z-index:998;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%)}
 
-  /* SCANLINES */
-  .scanlines{
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(74,103,65,0.015) 2px,rgba(74,103,65,0.015) 4px);
-  }
-
-  /* CROSSHAIR CURSOR */
-  body{cursor:crosshair}
-  a,button,.btn,.ca-addr,.res-row{cursor:crosshair}
-
-  /* STENCIL TEXT */
-  .stencil{font-family:var(--mono);font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--text-muted);font-size:11px}
-
-  /* DANGER STRIPE */
-  .danger-stripe{
-    height:4px;
-    background:repeating-linear-gradient(45deg,var(--amber),var(--amber) 10px,transparent 10px,transparent 20px);
-    opacity:0.15;
-  }
-
-  /* BARBED WIRE SVG DIVIDER */
-  .barbed-wire{
-    width:100%;height:32px;opacity:0.3;position:relative;overflow:hidden;padding:4px 0;
-  }
-  .barbed-wire svg{width:100%;height:24px}
-
-  /* MUD SPLATTER OVERLAY */
-  .mud-overlay{
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-  }
-  .mud-overlay svg{width:100%;height:100%;opacity:0.06}
-
-  /* SCRATCHES OVERLAY */
-  .scratches{
-    position:fixed;inset:0;z-index:0;pointer-events:none;
-  }
-  .scratches svg{width:100%;height:100%;opacity:0.035}
-
-  /* FLOATING CONNECT WALLET */
-  .floating-wallet{
-    position:fixed;bottom:24px;right:24px;z-index:100;
-    display:flex;align-items:center;gap:8px;
-    padding:12px 20px;background:var(--amber);color:var(--bg);
-    font-family:var(--mono);font-size:11px;font-weight:600;
-    letter-spacing:2px;text-transform:uppercase;
-    border:none;cursor:crosshair;
-    box-shadow:0 4px 24px rgba(0,0,0,0.5),0 0 12px rgba(74,103,65,0.15);
-    transition:all .2s;
-    text-decoration:none;
-  }
-  .floating-wallet:hover{background:var(--amber-bright);transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,0,0,0.6),0 0 20px rgba(74,103,65,0.2)}
-  .floating-wallet:active{transform:translateY(0)}
-  .floating-wallet svg{width:16px;height:16px}
-
-  /* ROUGH EDGE SECTIONS */
-  .rough-top{
-    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='12' viewBox='0 0 1200 12'%3E%3Cpath d='M0 6c20-4 40 2 60-1s40 3 60-2 40 4 60 0 40-3 60 1 40 2 60-1 40-2 60 2 40 3 60-1 40-4 60 0 40 3 60-2 40 2 60 1 40-3 60-1 40 4 60 2 40-2 60 0 40 3 60-1 40-4 60 1 40 2 60-2 40 3 60 0 40-3 60 2V12H0z' fill='white'/%3E%3C/svg%3E");
-    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='12' viewBox='0 0 1200 12'%3E%3Cpath d='M0 6c20-4 40 2 60-1s40 3 60-2 40 4 60 0 40-3 60 1 40 2 60-1 40-2 60 2 40 3 60-1 40-4 60 0 40 3 60-2 40 2 60 1 40-3 60-1 40 4 60 2 40-2 60 0 40 3 60-1 40-4 60 1 40 2 60-2 40 3 60 0 40-3 60 2V12H0z' fill='white'/%3E%3C/svg%3E");
-    -webkit-mask-size:100% 12px;mask-size:100% 12px;
-    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-    -webkit-mask-position:top;mask-position:top;
-    padding-top:12px;
-  }
-
-  /* MUDDY BG TINT */
-  body{
-    background:var(--bg);
-    background-image:
-      radial-gradient(ellipse at 30% 80%, rgba(60,45,20,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 70% 20%, rgba(40,50,30,0.06) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 50%, rgba(30,25,15,0.1) 0%, transparent 60%);
-  }
-
-  /* RED ALERT BAR */
-  .alert-bar{
-    background:var(--red);padding:8px 20px;text-align:center;
-    font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;
-    color:#e8a0a0;animation:alertPulse 2s ease-in-out infinite;
-  }
-  @keyframes alertPulse{0%,100%{opacity:1}50%{opacity:.6}}
-
-  /* REDACTED TEXT */
-  .redacted{
-    background:var(--text-dim);color:var(--text-dim);padding:0 4px;
-    user-select:none;font-family:var(--mono);font-size:12px;letter-spacing:1px;
-  }
-
-  /* SIREN BORDER */
-  .siren-border{
-    border-left:3px solid var(--red);padding-left:16px;
-  }
-
-  /* FALLOUT PARTICLES */
-  .particle{
-    position:fixed;width:2px;height:2px;background:var(--amber);border-radius:50%;
-    pointer-events:none;z-index:0;opacity:0;
-    animation:fallout 8s linear infinite;
-  }
-  @keyframes fallout{
-    0%{opacity:0;transform:translateY(-10px)}
-    10%{opacity:.3}
-    90%{opacity:.15}
-    100%{opacity:0;transform:translateY(100vh)}
-  }
-
-  /* COUNTDOWN FLASH */
-  @keyframes countFlash{0%,100%{color:var(--amber)}50%{color:var(--red)}}
-  .flash-val{animation:countFlash 1.5s ease-in-out infinite}
-  /* NOISE */
-  body::after{
-    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.03;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* GLOW */
-  .hero-glow{
-    position:fixed;top:0;left:0;width:100%;height:100vh;z-index:0;pointer-events:none;
-    background:radial-gradient(ellipse 60% 50% at 20% 30%,rgba(74,103,65,0.04) 0%,transparent 70%),
-               radial-gradient(ellipse 40% 40% at 80% 70%,rgba(74,103,65,0.02) 0%,transparent 60%);
-    animation:heroBreath 60s ease-in-out infinite;
-  }
-  @keyframes heroBreath{
-    0%,100%{opacity:1;filter:hue-rotate(0deg)}
-    25%{opacity:.6}
-    50%{opacity:1;filter:hue-rotate(5deg)}
-    75%{opacity:.7}
-  }
-
-  .page{position:relative;z-index:1}
-
-  /* CRT VIGNETTE */
-  .crt-vignette{
-    position:fixed;inset:0;z-index:999;pointer-events:none;
-    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.35) 100%);
-  }
-
-  /* CORNER TICKS */
-  .ticked{position:relative}
-  .ticked::before,.ticked::after,
-  .ticked .tick-bl,.ticked .tick-br{
-    position:absolute;width:12px;height:12px;pointer-events:none;
-  }
-  .ticked::before{top:-1px;left:-1px;border-top:1px solid var(--amber);border-left:1px solid var(--amber);content:''}
-  .ticked::after{top:-1px;right:-1px;border-top:1px solid var(--amber);border-right:1px solid var(--amber);content:''}
-  .tick-bl{bottom:-1px;left:-1px;border-bottom:1px solid var(--amber);border-left:1px solid var(--amber)}
-  .tick-br{bottom:-1px;right:-1px;border-bottom:1px solid var(--amber);border-right:1px solid var(--amber)}
-
-  /* LABEL */
-  .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber-bright)}
-
-  /* HERO */
-  .hero{
-    min-height:100dvh;display:grid;grid-template-columns:1fr 1fr;
-    align-items:center;gap:60px;padding:60px 60px 80px;
-    max-width:1200px;margin:0 auto;
-  }
-  .hero-text h1{
-    font-family:var(--display);font-size:clamp(36px,5vw,58px);font-weight:800;
-    line-height:1.05;letter-spacing:-1.5px;margin:16px 0 20px;text-transform:uppercase;
-  }
-  .hero-text h1 span{color:var(--amber-bright);text-shadow:0 0 40px rgba(74,103,65,0.4)}
-  .hero-text p{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:32px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
-  .hero-actions{display:flex;gap:10px}
-
-  .btn{
-    padding:10px 24px;font-family:var(--mono);font-size:12px;font-weight:600;
-    letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;
-    border:none;cursor:pointer;transition:all .2s;display:inline-block;
-  }
-  .btn:active{transform:translateY(1px)}
-  .btn-primary{background:var(--amber);color:var(--bg)}
-  .btn-primary:hover{background:var(--amber-bright);box-shadow:0 0 20px rgba(74,103,65,0.2)}
-  .btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border-hard)}
-  .btn-ghost:hover{border-color:var(--amber);color:var(--text)}
-
-  /* HERO RIGHT - RESOURCE STACK */
-  .resource-stack{display:flex;flex-direction:column;gap:8px}
-  .res-row{
-    display:flex;align-items:center;gap:14px;
-    padding:14px 18px;background:var(--surface);border:1px solid var(--border);
-    transition:all .25s;border-left:3px solid var(--mud-light);
-  }
-  .res-row:hover{border-color:var(--border-hard);background:var(--surface2);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.3),0 0 12px rgba(74,103,65,0.06);border-left-color:var(--amber)}
-  .res-row svg{width:28px;height:28px;flex-shrink:0;color:var(--amber)}
-  .res-row img{width:32px;height:32px;flex-shrink:0;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
-  .res-info{flex:1}
-  .res-name{font-weight:600;font-size:14px}
-  .res-ticker{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px}
-  .res-tag{
-    font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-    color:#7a9a5e;background:rgba(58,90,44,0.2);padding:3px 8px;
-  }
-
-  /* DIVIDER */
-  .divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);margin:0 auto}
-
-  /* STATS */
-  .stats{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:var(--border);border:1px solid var(--border);
-    max-width:1200px;margin:0 auto;
-  }
-  .stat{background:var(--bg);padding:32px 24px;text-align:center;border-bottom:2px solid var(--mud)}
-  .stat-val{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--amber-bright);font-variant-numeric:tabular-nums}
-  .stat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px}
-
-  /* SECTION */
-  .section{max-width:1200px;margin:0 auto;padding:100px 60px}
-  .section h2{font-size:clamp(24px,3.5vw,38px);font-weight:700;letter-spacing:-0.5px;margin:12px 0 12px;text-transform:uppercase}
-  .section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:48px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
-
-  /* STEPS */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);counter-reset:step}
-  .step{background:var(--bg);padding:32px 24px;counter-increment:step;position:relative;border-left:2px solid var(--mud-light)}
-  .step::before{
-    content:"0" counter(step);font-family:var(--mono);font-size:11px;font-weight:600;
-    color:var(--amber);letter-spacing:1px;display:block;margin-bottom:16px;
-  }
-  .step h3{font-size:15px;font-weight:600;margin-bottom:8px}
-  .step p{font-size:13px;color:var(--text-dim);line-height:1.6;text-shadow:0 1px 2px rgba(0,0,0,0.4)}
-
-  /* CA */
-  .ca-section{text-align:center;padding:80px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='c'%3E%3CfeTurbulence baseFrequency='0.04' numOctaves='5' seed='8'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23c)' opacity='0.03'/%3E%3C/svg%3E");
-  }
-  .ca-addr{
-    font-family:var(--mono);font-size:clamp(11px,2vw,15px);color:var(--amber);
-    cursor:pointer;padding:14px 28px;border:1px dashed var(--border-hard);
-    display:inline-block;transition:all .2s;word-break:break-all;letter-spacing:0.5px;
-  }
-  .ca-addr:hover{background:var(--amber-dim);border-color:var(--amber)}
-  .ca-addr:active{transform:translateY(1px)}
-  .link-row{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
-
-  /* FOOTER */
-  footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border)}
-  .powered{display:flex;justify-content:center;gap:28px;margin-bottom:14px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
-  footer p{font-size:12px;color:var(--text-dim)}
-
-  /* TICKER */
-  .ticker{overflow:hidden;border-bottom:1px solid var(--border);padding:10px 0;background:var(--surface)}
-  .ticker-track{display:flex;gap:48px;animation:tick 50s linear infinite;width:max-content;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;will-change:transform}
-  .ticker-track span{color:var(--amber)}
-  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  /* CHAPTER SECTIONS */
+  .chapter{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;overflow:hidden}
+  .chapter-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+  .chapter-title{font-size:clamp(32px,6vw,72px);font-weight:800;line-height:1.05;letter-spacing:-2px;text-transform:uppercase;margin-bottom:24px}
+  .chapter-title span{color:var(--green)}
+  .chapter-body{font-size:clamp(16px,1.8vw,20px);color:var(--text-dim);max-width:600px;line-height:1.8}
 
   /* REVEAL */
-  .reveal{opacity:0;transform:translateY(20px);transition:all .6s cubic-bezier(.16,1,.3,1)}
-  .reveal.visible{opacity:1;transform:translateY(0)}
+  .r{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+  .r.v{opacity:1;transform:translateY(0)}
+  .r:nth-child(2){transition-delay:.1s}
+  .r:nth-child(3){transition-delay:.2s}
+  .r:nth-child(4){transition-delay:.3s}
+  .r:nth-child(5){transition-delay:.4s}
 
-  /* STAGGERED HERO LOAD */
-  @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-  .hero-text>*{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) both}
-  .hero-text>*:nth-child(1){animation-delay:.15s}
-  .hero-text>*:nth-child(2){animation-delay:.3s}
-  .hero-text>*:nth-child(3){animation-delay:.45s}
-  .hero-text>*:nth-child(4){animation-delay:.6s}
-  .hero-text>*:nth-child(5){animation-delay:.75s}
-  .resource-stack{animation:fadeInUp .8s cubic-bezier(.16,1,.3,1) .5s both}
+  /* ALERT BAR */
+  .alert{background:var(--red);padding:10px 20px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#e8a0a0;animation:pulse 2s ease-in-out infinite;position:fixed;top:0;left:0;right:0;z-index:100}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+  /* ── HERO ── */
+  .hero{min-height:100dvh;display:flex;align-items:center;padding:100px 60px 80px;position:relative}
+  .hero-inner{max-width:700px}
+  .hero-logo{width:64px;height:64px;border-radius:12px;margin-bottom:24px;border:2px solid var(--border)}
+  .hero h1{font-size:clamp(40px,7vw,80px);font-weight:800;line-height:1;letter-spacing:-3px;text-transform:uppercase;margin-bottom:20px}
+  .hero h1 span{color:var(--green);display:block;font-size:clamp(14px,1.5vw,18px);letter-spacing:8px;font-weight:600;margin-bottom:12px;font-family:var(--mono)}
+  .hero p{font-size:18px;color:var(--text-dim);line-height:1.8;max-width:520px;margin-bottom:32px}
+  .hero-scroll{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);position:absolute;bottom:40px;left:60px;animation:bob 2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+  /* WIRE DIVIDER */
+  .wire{height:1px;background:linear-gradient(90deg,transparent,var(--green-dim),transparent);margin:0;opacity:.3}
+
+  /* ── THREAT ── */
+  .threat{background:linear-gradient(180deg,var(--bg),#0d0e0a,var(--bg))}
+  .threat-stats{display:flex;gap:40px;margin-top:40px;flex-wrap:wrap}
+  .threat-stat{border-left:2px solid var(--red);padding-left:16px}
+  .threat-stat .val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--green)}
+  .threat-stat .lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+
+  /* ── ARSENAL ── */
+  .arsenal-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:48px}
+  .asset-card{background:var(--surface);border:1px solid var(--border);padding:28px 20px;text-align:center;transition:all .3s}
+  .asset-card:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  .asset-card img{width:48px;height:48px;border-radius:8px;object-fit:cover;margin-bottom:14px;border:1px solid var(--border)}
+  .asset-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+  .asset-card .ticker{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px}
+  .asset-card .status{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-top:10px;padding:3px 8px;display:inline-block}
+  .status-critical{color:#c44;background:rgba(180,40,40,.12)}
+  .status-strategic{color:var(--green);background:var(--green-bg)}
+
+  /* ── OPERATION ── */
+  .op-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:48px;counter-reset:phase}
+  .op-card{background:var(--bg);padding:36px 24px;counter-increment:phase}
+  .op-card::before{content:"PHASE 0" counter(phase);font-family:var(--mono);font-size:10px;font-weight:600;color:var(--green);letter-spacing:2px;display:block;margin-bottom:16px}
+  .op-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+  .op-card p{font-size:13px;color:var(--text-dim);line-height:1.7}
+
+  /* ── EVIDENCE ── */
+  .evidence{background:var(--surface)}
+  .evidence-inner{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start;margin-top:48px}
+  .pie-wrap{position:relative;width:220px;height:220px}
+  .pie-wrap svg{transform:rotate(-90deg)}
+  .pie-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
+  .pie-center .num{font-family:var(--mono);font-size:22px;font-weight:700}
+  .pie-center .lbl{font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px}
+  .legend{display:flex;flex-direction:column;gap:10px;font-family:var(--mono);font-size:12px}
+  .legend-item{display:flex;align-items:center;gap:10px}
+  .legend-dot{width:10px;height:10px;flex-shrink:0}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:40px}
+  .stats-row .cell{background:var(--bg);padding:28px 20px;text-align:center}
+  .cell .val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--green);font-variant-numeric:tabular-nums}
+  .cell .lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+
+  /* ── DEPLOY ── */
+  .deploy{text-align:center}
+  .ca-box{font-family:var(--mono);font-size:clamp(11px,2vw,15px);color:var(--green);cursor:pointer;padding:16px 32px;border:1px dashed var(--border-hard);display:inline-block;transition:all .2s;word-break:break-all;letter-spacing:.5px;margin:20px 0}
+  .ca-box:hover{background:var(--green-bg);border-color:var(--green)}
+  .btn-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .btn{padding:12px 28px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:all .2s;display:inline-block}
+  .btn:active{transform:translateY(1px)}
+  .btn-g{background:var(--green);color:var(--bg)}
+  .btn-g:hover{background:var(--green);box-shadow:0 0 20px rgba(74,103,65,.25)}
+  .btn-o{background:transparent;color:var(--text-dim);border:1px solid var(--border-hard)}
+  .btn-o:hover{border-color:var(--green);color:var(--text)}
+
+  /* FLOATING WALLET */
+  .fw{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;align-items:center;gap:8px;padding:12px 20px;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.5);transition:all .2s;text-decoration:none}
+  .fw:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,0,0,.6)}
+  .fw svg{width:16px;height:16px}
+
+  /* FOOTER */
+  footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
 
   /* MOBILE */
   @media(max-width:768px){
-    .hero{grid-template-columns:1fr;padding:40px 24px 60px;gap:40px}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .steps{grid-template-columns:1fr}
-    .section{padding:60px 24px}
+    .chapter,.hero{padding:60px 24px}
+    .arsenal-grid{grid-template-columns:repeat(2,1fr)}
+    .op-grid{grid-template-columns:1fr}
+    .evidence-inner{grid-template-columns:1fr;gap:32px}
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+    .threat-stats{flex-direction:column;gap:20px}
+    .hero-scroll{display:none}
   }
   @media(max-width:480px){
-    .stats{grid-template-columns:1fr}
-    .hero-actions{flex-direction:column}
+    .arsenal-grid{grid-template-columns:1fr}
+    .stats-row{grid-template-columns:1fr}
+    .btn-row{flex-direction:column;align-items:center}
     .btn{width:100%;text-align:center}
   }
-  /* INTEL SECTION */
-  .intel-section{max-width:1200px;margin:0 auto;padding:80px 60px;border-top:1px solid var(--border)}
-  .intel-section .label{margin-bottom:12px}
-  .intel-section h2{font-size:clamp(24px,3.5vw,38px);font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;text-transform:uppercase}
-  .intel-section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:40px}
-  .wallet-connect-box{padding:32px;background:var(--surface);border:1px solid var(--border);margin-bottom:32px;text-align:center}
-  .wallet-connect-box .btn{margin-top:12px}
-  .wallet-status{display:none;text-align:left}
-  .wallet-status.active{display:block}
-  .wallet-addr{font-family:var(--mono);font-size:13px;color:var(--amber);padding:10px 14px;background:var(--surface);border:1px solid var(--border);margin-bottom:24px;display:inline-block}
-  .holdings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:32px}
-  .holding{background:var(--bg);padding:24px 18px;text-align:center}
-  .holding-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--amber)}
-  .holding-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
-  .payout-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
-  .payout-table th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-hard);color:var(--amber);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
-  .payout-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-dim)}
-  .payout-table tr:hover td{background:var(--amber-dim)}
-  @media(max-width:768px){.intel-section{padding:60px 24px}.holdings-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="hero-glow"></div>
-<div class="scanlines"></div>
-<div class="mud-overlay"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="mud"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="6" seed="5"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#mud)"/></svg></div>
-<div class="scratches"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="none"><line x1="30" y1="0" x2="120" y2="500" stroke="#fff" stroke-width="0.5"/><line x1="180" y1="0" x2="300" y2="500" stroke="#fff" stroke-width="0.3"/><line x1="350" y1="0" x2="220" y2="500" stroke="#fff" stroke-width="0.4"/><line x1="450" y1="0" x2="400" y2="500" stroke="#fff" stroke-width="0.3"/><line x1="0" y1="100" x2="500" y2="150" stroke="#fff" stroke-width="0.3"/><line x1="0" y1="280" x2="500" y2="320" stroke="#fff" stroke-width="0.4"/><line x1="0" y1="420" x2="500" y2="380" stroke="#fff" stroke-width="0.3"/></svg></div>
-<div class="crt-vignette"></div>
 
-<!-- FLOATING CONNECT WALLET -->
-<button class="floating-wallet" id="floatingWallet">
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<!-- FLOATING WALLET -->
+<button class="fw" id="floatingWallet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4z"/><path d="M2 10h20"/></svg>
   Connect Wallet
 </button>
 
-<div class="page">
-
 <!-- ALERT -->
-<div class="alert-bar">&#9762; Civil Defense Broadcast — Resource hoarding detected across Eastern Bloc — Secure your reserves &#9762;</div>
+<div class="alert">&#9762; Civil Defense Broadcast — Resource hoarding detected — Secure your reserves &#9762;</div>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
-
-<div class="ticker">
-  <div class="ticker-track">
-    <div>&#9762; GOLD <span>+2.4%</span></div><div>&#9762; SILVER <span>+1.8%</span></div><div>&#9762; CRUDE OIL <span>-0.3%</span></div><div>&#9762; EXXON <span>+0.6%</span></div><div>&#9762; CHEVRON <span>+0.4%</span></div><div class="stencil">CLASSIFIED — EYES ONLY</div>
-    <div>&#9762; GOLD <span>+2.4%</span></div><div>&#9762; SILVER <span>+1.8%</span></div><div>&#9762; CRUDE OIL <span>-0.3%</span></div><div>&#9762; EXXON <span>+0.6%</span></div><div>&#9762; CHEVRON <span>+0.4%</span></div><div class="stencil">CLASSIFIED — EYES ONLY</div>
-  </div>
-</div>
-
+<!-- ═══════ CHAPTER 1: HERO ═══════ -->
 <section class="hero">
-  <div class="hero-text">
-    <div class="label">&#9762; War Index Fund — Est. 2026</div>
-    <h1>Duck and cover<br>won't save you. <span>Gold will.</span></h1>
-    <p>In 1961, the US government told citizens to hide under desks. We say: stockpile real assets. Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
-    <div class="siren-border stencil" style="margin-bottom:20px;color:var(--text-dim);padding:8px 16px">
-      Defcon Level: <span style="color:#c44">2</span> &nbsp;|&nbsp; Iron Curtain Status: <span style="color:#c44">Active</span> &nbsp;|&nbsp; Geiger Reading: <span style="color:var(--amber)">Elevated</span>
-    </div>
-    <div class="hero-actions">
-      <a href="#" class="btn btn-primary">&#9762; Enter the War Index Fund</a>
-      <a href="#ops" class="btn btn-ghost">&#9670; Read the Dossier</a>
+  <div class="hero-inner">
+    <img src="wif-logo.png" class="hero-logo r" alt="WIF">
+    <h1 class="r"><span>War Index Fund</span>Stockpile real<br>resources.</h1>
+    <p class="r">Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
+    <div class="r">
+      <a href="#deploy" class="btn btn-g">&#9762; Enter the Fund</a>
     </div>
   </div>
-  <div class="resource-stack" style="position:relative">
-    <div style="position:absolute;top:-30px;right:0" class="stencil">&#9670; Inventory Manifest &#9670;</div>
-    <div class="res-row">
+  <div class="hero-scroll">&#9660; Scroll to begin the briefing</div>
+</section>
+
+<div class="wire"></div>
+
+<!-- ═══════ CHAPTER 2: THE THREAT ═══════ -->
+<section class="chapter threat" id="threat">
+  <div class="chapter-label r">Chapter I — The Threat</div>
+  <div class="chapter-title r">History doesn't repeat.<br>It <span>rhymes.</span></div>
+  <div class="chapter-body r">1962: Khrushchev stockpiled missiles. Kennedy stockpiled resolve. The smart money stockpiled gold. In every crisis since — oil embargo '73, Soviet collapse '91, every war, every panic — commodities were the last thing standing. Fiat currencies collapsed. Stocks crashed. Gold survived.</div>
+  <div class="threat-stats">
+    <div class="threat-stat r"><div class="val">+8,200%</div><div class="lbl">Gold since Nixon shock '71</div></div>
+    <div class="threat-stat r"><div class="val">-97%</div><div class="lbl">USD purchasing power</div></div>
+    <div class="threat-stat r"><div class="val">90 sec</div><div class="lbl">Doomsday Clock to midnight</div></div>
+  </div>
+</section>
+
+<div class="wire"></div>
+
+<!-- ═══════ CHAPTER 3: THE ARSENAL ═══════ -->
+<section class="chapter" id="arsenal">
+  <div class="chapter-label r">Chapter II — The Arsenal</div>
+  <div class="chapter-title r">Five resources.<br>One <span>war chest.</span></div>
+  <div class="chapter-body r">Backed 1:1 by real assets held with regulated custodians. Tokenized on Solana via Ondo Finance and Backed Finance. Your war chest grows with every trade.</div>
+  <div class="arsenal-grid">
+    <div class="asset-card r">
       <img src="gold.webp" alt="Gold">
-      <div class="res-info"><div class="res-name">Gold</div><div class="res-ticker">GLDon &nbsp;<span style="color:#c44;font-size:9px">FORT KNOX RESERVES DECLINING</span></div></div>
-      <div class="res-tag">Secured</div>
+      <h3>Gold</h3>
+      <div class="ticker">GLDon</div>
+      <div class="status status-critical">Fort Knox declining</div>
     </div>
-    <div class="res-row">
+    <div class="asset-card r">
       <img src="silver.png" alt="Silver">
-      <div class="res-info"><div class="res-name">Silver</div><div class="res-ticker">SLVon &nbsp;<span style="color:#c44;font-size:9px">INDUSTRIAL DEMAND SURGING</span></div></div>
-      <div class="res-tag">Secured</div>
+      <h3>Silver</h3>
+      <div class="ticker">SLVon</div>
+      <div class="status status-critical">Demand surging</div>
     </div>
-    <div class="res-row">
-      <img src="crudeoil.webp" alt="Crude Oil">
-      <div class="res-info"><div class="res-name">Crude Oil</div><div class="res-ticker">USOon &nbsp;<span style="color:#c44;font-size:9px">1973 EMBARGO REPEATING</span></div></div>
-      <div class="res-tag">Secured</div>
+    <div class="asset-card r">
+      <img src="crudeoil.webp" alt="Oil">
+      <h3>Crude Oil</h3>
+      <div class="ticker">USOon</div>
+      <div class="status status-critical">Embargo repeating</div>
     </div>
-    <div class="res-row">
-      <img src="exxon.webp" alt="Exxon Mobil">
-      <div class="res-info"><div class="res-name">Exxon Mobil</div><div class="res-ticker">XOMx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
-      <div class="res-tag">Secured</div>
+    <div class="asset-card r">
+      <img src="exxon.webp" alt="Exxon">
+      <h3>Exxon Mobil</h3>
+      <div class="ticker">XOMx</div>
+      <div class="status status-strategic">Strategic</div>
     </div>
-    <div class="res-row">
+    <div class="asset-card r">
       <img src="chevron.png" alt="Chevron">
-      <div class="res-info"><div class="res-name">Chevron</div><div class="res-ticker">CVXx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
-      <div class="res-tag">Secured</div>
+      <h3>Chevron</h3>
+      <div class="ticker">CVXx</div>
+      <div class="status status-strategic">Strategic</div>
     </div>
-    <div style="margin-top:8px;text-align:right" class="stencil"><span style="color:var(--red)">&#9762;</span> Scarcity Index: Cuban Missile Crisis Levels</div>
   </div>
 </section>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
+<div class="wire"></div>
 
-<div class="stats reveal">
-  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">War Chest</div></div>
-  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Reserves Secured</div></div>
-  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Shelter Occupants</div></div>
-  <div class="stat"><div class="stat-val flash-val">30:00</div><div class="stat-lbl">Next Resupply</div></div>
-</div>
-
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
-
-<div class="divider" style="margin:80px auto"></div>
-
-<section class="section reveal" id="stockpile">
-  <div class="label">&#9762; The Stockpile</div>
-  <h2>History repeats. The prepared survive.</h2>
-  <p>1962: Khrushchev stockpiled missiles. Kennedy stockpiled resolve. The smart money stockpiled gold. In every crisis since — oil embargo '73, Soviet collapse '91, every war, every panic — commodities were the last thing standing. The bunker runs that same playbook, on-chain.</p>
-  <div class="siren-border stencil" style="color:var(--text-dim);padding:8px 16px;margin-bottom:16px">
-    <span style="color:#c44">&#9762;</span> Gold since 1971 Nixon shock: <span style="color:var(--amber)">+8,200%</span> &nbsp;|&nbsp; Fiat purchasing power: <span style="color:#c44">-97%</span> &nbsp;|&nbsp; Oil crises: <span class="redacted">RECURRING</span>
+<!-- ═══════ CHAPTER 4: THE OPERATION ═══════ -->
+<section class="chapter" id="operation">
+  <div class="chapter-label r">Chapter III — The Operation</div>
+  <div class="chapter-title r">Mutually assured<br><span>accumulation.</span></div>
+  <div class="chapter-body r">Like the dead hand system — once activated, it runs without human intervention. No launch codes required.</div>
+  <div class="op-grid">
+    <div class="op-card r"><h3>Enter the fund</h3><p>Acquire $WIF on Jupiter. One transaction. The blast door closes behind you.</p></div>
+    <div class="op-card r"><h3>Intercept the signal</h3><p>Every trade generates creator fees. Captured like intercepted radio transmissions — straight into the war chest.</p></div>
+    <div class="op-card r"><h3>Seize the reserves</h3><p>The war chest auto-acquires gold, silver, crude oil, and energy positions. The Berlin airlift, but for your portfolio.</p></div>
+    <div class="op-card r"><h3>Resupply airdrop</h3><p>Every 30 minutes, real tokenized commodities drop into your wallet. Hold and accumulate.</p></div>
   </div>
 </section>
 
-<section class="section reveal" id="ops">
-  <div class="label">&#9670; Dossier — Operation Resupply</div>
-  <h2>Four phases. Mutually assured accumulation.</h2>
-  <p>Like the dead hand system — once activated, it runs without human intervention. No launch codes required.</p>
-  <div class="steps ticked">
-    <div class="tick-bl"></div><div class="tick-br"></div>
-    <div class="step"><h3>Enter the shelter</h3><p>Acquire $WIF on Jupiter. One transaction. The blast door closes behind you.</p></div>
-    <div class="step"><h3>Intercept the signal</h3><p>Every trade generates creator fees. They're captured like intercepted radio transmissions — straight into the war chest.</p></div>
-    <div class="step"><h3>Seize the reserves</h3><p>The war chest auto-acquires gold, silver, crude oil, and energy positions. Like the Berlin airlift, but for your portfolio.</p></div>
-    <div class="step"><h3>Resupply airdrop</h3><p>Every 30 minutes, real tokenized commodities drop into your wallet. The shelter provides. Hold and accumulate.</p></div>
-  </div>
-</section>
+<div class="wire"></div>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
-
-<section class="ca-section reveal">
-  <div class="stencil" style="margin-bottom:8px">&#9670; Classified &#9670;</div>
-  <div class="label" style="margin-bottom:16px">Contract Address</div>
-  <div class="ca-addr" onclick="navigator.clipboard.writeText('TBA');this.textContent='COPIED';setTimeout(()=>this.textContent='TBA',1500)">TBA</div>
-  <div class="link-row">
-    <a href="#" class="btn btn-primary">&#9654; Jupiter</a>
-    <a href="#" class="btn btn-ghost">&#9670; DexScreener</a>
-    <a href="#" class="btn btn-ghost">&#9670; Pump.fun</a>
-    <a href="https://x.com/" class="btn btn-ghost" target="_blank">&#9670; X</a>
-  </div>
-</section>
-
-<section class="section reveal" id="intel" style="text-align:center">
-  <div class="label">&#9762; War Room Overview</div>
-  <h2>Bunker Status Report</h2>
-  <p style="margin:0 auto 48px">Real-time intelligence on treasury operations, resource allocation, and shelter occupancy.</p>
-
-  <!-- PIE CHART -->
-  <div style="display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;margin-bottom:48px">
-    <div style="position:relative;width:200px;height:200px">
-      <svg viewBox="0 0 200 200" style="transform:rotate(-90deg)">
-        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--mud-light)" stroke-width="24"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#b8860b" stroke-width="24" stroke-dasharray="120 503" stroke-dashoffset="0"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#a0a0a0" stroke-width="24" stroke-dasharray="100 503" stroke-dashoffset="-120"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#2d2d2d" stroke-width="24" stroke-dasharray="80 503" stroke-dashoffset="-220"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#4a6741" stroke-width="24" stroke-dasharray="100 503" stroke-dashoffset="-300"/>
-        <circle cx="100" cy="100" r="80" fill="none" stroke="#1a3a5c" stroke-width="24" stroke-dasharray="103 503" stroke-dashoffset="-400"/>
+<!-- ═══════ CHAPTER 5: THE EVIDENCE ═══════ -->
+<section class="chapter evidence" id="evidence">
+  <div class="chapter-label r">Chapter IV — The Evidence</div>
+  <div class="chapter-title r">War room <span>status.</span></div>
+  <div class="evidence-inner r">
+    <div class="pie-wrap">
+      <svg viewBox="0 0 220 220" width="220" height="220">
+        <circle cx="110" cy="110" r="85" fill="none" stroke="var(--mud)" stroke-width="28"/>
+        <circle cx="110" cy="110" r="85" fill="none" stroke="#b8860b" stroke-width="28" stroke-dasharray="128 534" stroke-dashoffset="0"/>
+        <circle cx="110" cy="110" r="85" fill="none" stroke="#a0a0a0" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-128"/>
+        <circle cx="110" cy="110" r="85" fill="none" stroke="#2d2d2d" stroke-width="28" stroke-dasharray="85 534" stroke-dashoffset="-235"/>
+        <circle cx="110" cy="110" r="85" fill="none" stroke="#4a6741" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-320"/>
+        <circle cx="110" cy="110" r="85" fill="none" stroke="#1a3a5c" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-427"/>
       </svg>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column">
-        <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text)">5</div>
-        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px">ASSETS</div>
-      </div>
+      <div class="pie-center"><div class="num">5</div><div class="lbl">Assets</div></div>
     </div>
-    <div style="text-align:left;font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#b8860b;display:inline-block"></span> Gold (GLDon) <span style="color:var(--text-dim);margin-left:auto">24%</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#a0a0a0;display:inline-block"></span> Silver (SLVon) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#2d2d2d;display:inline-block"></span> Crude Oil (USOon) <span style="color:var(--text-dim);margin-left:auto">16%</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#4a6741;display:inline-block"></span> Exxon (XOMx) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#1a3a5c;display:inline-block"></span> Chevron (CVXx) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#b8860b"></span>Gold (GLDon)<span style="color:var(--text-dim);margin-left:auto">24%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#a0a0a0"></span>Silver (SLVon)<span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#2d2d2d"></span>Crude Oil (USOon)<span style="color:var(--text-dim);margin-left:auto">16%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4a6741"></span>Exxon (XOMx)<span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1a3a5c"></span>Chevron (CVXx)<span style="color:var(--text-dim);margin-left:auto">20%</span></div>
     </div>
   </div>
-
-  <!-- OVERVIEW STATS -->
-  <div class="stats" style="margin-bottom:0">
-    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Total Distributed</div></div>
-    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Distribution Cycles</div></div>
-    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Unique Holders</div></div>
-    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Fees Claimed</div></div>
-  </div>
-
-  <div style="margin-top:32px">
-    <a href="dashboard.html" class="btn btn-primary" style="padding:14px 32px">&#9762; Open Field Intelligence Dashboard</a>
+  <div class="stats-row r">
+    <div class="cell"><div class="val" id="s-chest">—</div><div class="lbl">War Chest (SOL)</div></div>
+    <div class="cell"><div class="val" id="s-dist">—</div><div class="lbl">Total Distributed</div></div>
+    <div class="cell"><div class="val" id="s-holders">—</div><div class="lbl">Shelter Occupants</div></div>
+    <div class="cell"><div class="val" id="s-cycles">—</div><div class="lbl">Resupply Cycles</div></div>
   </div>
 </section>
 
-<footer class="reveal">
-  <div class="powered"><span>Solana</span><span>Jupiter</span><span>Ondo</span><span>xStocks</span></div>
-  <p class="stencil" style="color:var(--text-dim)">$WIF — War Index Fund. In every crisis since 1945, commodities survived. Will you?</p>
-  <p style="font-size:11px;color:var(--text-muted);margin-top:8px;font-family:var(--mono)">&#9762; This is not a drill. The Doomsday Clock reads 90 seconds to midnight. &#9762;</p>
+<div class="wire"></div>
+
+<!-- ═══════ CHAPTER 6: DEPLOY ═══════ -->
+<section class="chapter deploy" id="deploy">
+  <div class="chapter-label r">Chapter V — Deploy</div>
+  <div class="chapter-title r">Enter the <span>war index fund.</span></div>
+  <div class="ca-box r" onclick="navigator.clipboard.writeText('TBA');this.textContent='COPIED';setTimeout(()=>this.textContent='TBA',1500)">TBA</div>
+  <div class="btn-row r">
+    <a href="#" class="btn btn-g">&#9762; Jupiter</a>
+    <a href="#" class="btn btn-o">DexScreener</a>
+    <a href="#" class="btn btn-o">Pump.fun</a>
+    <a href="https://x.com/" class="btn btn-o" target="_blank">X</a>
+  </div>
+</section>
+
+<footer>
+  <p>$WIF — War Index Fund — In every crisis since 1945, commodities survived.</p>
+  <p style="margin-top:8px;opacity:.5">Solana &middot; Jupiter &middot; Ondo &middot; xStocks</p>
 </footer>
 
-</div>
-
 <script>
-const API_BASE = ''; // Set to backend URL when deployed, e.g. 'https://bunker-backend.up.railway.app'
+const API_BASE='';
+const o=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('v')})},{threshold:.15});
+document.querySelectorAll('.r').forEach(el=>o.observe(el));
 
-// Reveal observer
-const o=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>o.observe(el));
+(async()=>{try{const r=await fetch(API_BASE+'/api/public/stats');const d=await r.json();
+document.getElementById('s-chest').textContent=d.warChest?.toFixed(2)||'—';
+document.getElementById('s-dist').textContent=d.totalDistributed||'—';
+document.getElementById('s-holders').textContent=d.uniqueHolders||'—';
+document.getElementById('s-cycles').textContent=d.distributionCycles||'—';
+}catch(e){}})();
 
-// Particles
-for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(6+Math.random()*8)+'s';p.style.animationDelay=(Math.random()*12)+'s';document.body.appendChild(p)}
-
-// Fetch stats
-(async()=>{
-  try{
-    const r=await fetch(`${API_BASE}/api/public/stats`);
-    if(!r.ok)return;
-    const d=await r.json();
-    const stats=document.querySelectorAll('.stats');
-    // Hero stats (first .stats block)
-    const hero=stats[0].querySelectorAll('.stat-val');
-    if(d.warChest!=null)hero[0].textContent=parseFloat(d.warChest).toFixed(2)+' SOL';
-    if(d.totalDistributed!=null)hero[1].textContent=d.totalDistributed;
-    if(d.uniqueHolders!=null)hero[2].textContent=d.uniqueHolders;
-    // Overview stats (second .stats block)
-    const ov=stats[1].querySelectorAll('.stat-val');
-    if(d.totalDistributed!=null)ov[0].textContent=d.totalDistributed;
-    if(d.distributionCycles!=null)ov[1].textContent=d.distributionCycles;
-    if(d.uniqueHolders!=null)ov[2].textContent=d.uniqueHolders;
-    if(d.totalFeesClaimed!=null)ov[3].textContent=d.totalFeesClaimed;
-  }catch(e){}
-})();
-
-// Floating wallet button
-document.getElementById('floatingWallet').addEventListener('click',async()=>{
-  if(window.solana&&window.solana.isPhantom){
-    try{
-      const resp=await window.solana.connect();
-      window.location.href='dashboard.html?wallet='+resp.publicKey.toString();
-    }catch(e){}
-  }else{
-    window.open('https://phantom.app','_blank');
-  }
-});
+document.getElementById('floatingWallet').onclick=async()=>{
+  if(window.solana?.isPhantom){try{const r=await window.solana.connect();window.location.href='dashboard.html?wallet='+r.publicKey.toString()}catch(e){}}
+  else window.open('https://phantom.app','_blank')};
 </script>
 </body>
 </html>
