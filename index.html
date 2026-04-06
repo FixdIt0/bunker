@@ -12,7 +12,7 @@
     --border:rgba(74,103,65,0.1);--border-hard:rgba(74,103,65,0.18);
     --amber:#4a6741;--amber-bright:#5c8a50;--amber-dim:rgba(74,103,65,0.06);
     --amber-glow:rgba(74,103,65,0.12);--red:#6b1a1a;
-    --text:#c8c2b0;--text-dim:#6a6455;--text-muted:#3a3530;
+    --text:#e0dbd0;--text-dim:#8a8475;--text-muted:#4a4540;
     --mud:#2a2218;--mud-light:#3d3425;
     --mono:'JetBrains Mono',monospace;--display:'Outfit',sans-serif;
   }
@@ -52,7 +52,7 @@
 
   /* BARBED WIRE SVG DIVIDER */
   .barbed-wire{
-    width:100%;height:24px;opacity:0.2;position:relative;overflow:hidden;
+    width:100%;height:32px;opacity:0.3;position:relative;overflow:hidden;padding:4px 0;
   }
   .barbed-wire svg{width:100%;height:24px}
 
@@ -178,7 +178,7 @@
   .tick-br{bottom:-1px;right:-1px;border-bottom:1px solid var(--amber);border-right:1px solid var(--amber)}
 
   /* LABEL */
-  .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber)}
+  .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber-bright)}
 
   /* HERO */
   .hero{
@@ -190,8 +190,8 @@
     font-family:var(--display);font-size:clamp(36px,5vw,58px);font-weight:800;
     line-height:1.05;letter-spacing:-1.5px;margin:16px 0 20px;text-transform:uppercase;
   }
-  .hero-text h1 span{color:var(--amber);text-shadow:0 0 40px rgba(74,103,65,0.3)}
-  .hero-text p{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:32px}
+  .hero-text h1 span{color:var(--amber-bright);text-shadow:0 0 40px rgba(74,103,65,0.4)}
+  .hero-text p{color:var(--text-dim);font-size:16px;line-height:1.7;max-width:440px;margin-bottom:32px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
   .hero-actions{display:flex;gap:10px}
 
   .btn{
@@ -233,13 +233,13 @@
     max-width:1200px;margin:0 auto;
   }
   .stat{background:var(--bg);padding:32px 24px;text-align:center;border-bottom:2px solid var(--mud)}
-  .stat-val{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--amber);font-variant-numeric:tabular-nums}
+  .stat-val{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--amber-bright);font-variant-numeric:tabular-nums}
   .stat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px}
 
   /* SECTION */
   .section{max-width:1200px;margin:0 auto;padding:100px 60px}
   .section h2{font-size:clamp(24px,3.5vw,38px);font-weight:700;letter-spacing:-0.5px;margin:12px 0 12px;text-transform:uppercase}
-  .section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:48px}
+  .section>p{color:var(--text-dim);font-size:15px;max-width:500px;margin-bottom:48px;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
 
   /* STEPS */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);counter-reset:step}
@@ -249,7 +249,7 @@
     color:var(--amber);letter-spacing:1px;display:block;margin-bottom:16px;
   }
   .step h3{font-size:15px;font-weight:600;margin-bottom:8px}
-  .step p{font-size:13px;color:var(--text-dim);line-height:1.6}
+  .step p{font-size:13px;color:var(--text-dim);line-height:1.6;text-shadow:0 1px 2px rgba(0,0,0,0.4)}
 
   /* CA */
   .ca-section{text-align:center;padding:80px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);
@@ -330,7 +330,7 @@
 <div class="crt-vignette"></div>
 
 <!-- FLOATING CONNECT WALLET -->
-<a href="#intel" class="floating-wallet" onclick="document.getElementById('walletConnectBox').style.display='none';document.getElementById('walletStatus').classList.add('active')">
+<a href="dashboard.html" class="floating-wallet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4z"/><path d="M2 10h20"/></svg>
   Connect Wallet
 </a>
@@ -340,7 +340,7 @@
 <!-- ALERT -->
 <div class="alert-bar">&#9762; Civil Defense Broadcast — Resource hoarding detected across Eastern Bloc — Secure your reserves &#9762;</div>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
 
 <div class="ticker">
   <div class="ticker-track">
@@ -393,7 +393,7 @@
   </div>
 </section>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
 
 <div class="stats reveal">
   <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">War Chest</div></div>
@@ -402,7 +402,7 @@
   <div class="stat"><div class="stat-val flash-val">30:00</div><div class="stat-lbl">Next Resupply</div></div>
 </div>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
 
 <div class="divider" style="margin:80px auto"></div>
 
@@ -428,7 +428,7 @@
   </div>
 </section>
 
-<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><defs><linearGradient id="rust" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5a4a30"/><stop offset="50%" stop-color="#4a6741"/><stop offset="100%" stop-color="#5a4a30"/></linearGradient></defs><path d="M0 12c10 0 15-1 20 0s10 1 20 0 15 1 20-1" stroke="url(#rust)" fill="none" stroke-width="2" stroke-linecap="round"/><path d="M0 13c30 0 40-2 80 0s50 2 80-1 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 2 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-2 80 1" stroke="url(#rust)" fill="none" stroke-width="2"/><path d="M0 11c30 1 40 0 80 1s50-1 80 0 40 1 80-1 50 1 80 0 40-1 80 1 50 0 80-1 40 1 80 0 50-1 80 1 40 0 80-1 50 1 80 0 40-1 80 1" stroke="url(#rust)" fill="none" stroke-width="1.5" stroke-dasharray="3 8"/><g fill="#5a4a30"><polygon points="60,8 64,4 68,8 64,6"/><polygon points="60,16 64,20 68,16 64,18"/><polygon points="180,8 184,4 188,8 184,6"/><polygon points="180,16 184,20 188,16 184,18"/><polygon points="300,8 304,4 308,8 304,6"/><polygon points="300,16 304,20 308,16 304,18"/><polygon points="420,8 424,4 428,8 424,6"/><polygon points="420,16 424,20 428,16 424,18"/><polygon points="540,8 544,4 548,8 544,6"/><polygon points="540,16 544,20 548,16 544,18"/><polygon points="660,8 664,4 668,8 664,6"/><polygon points="660,16 664,20 668,16 664,18"/><polygon points="780,8 784,4 788,8 784,6"/><polygon points="780,16 784,20 788,16 784,18"/><polygon points="900,8 904,4 908,8 904,6"/><polygon points="900,16 904,20 908,16 904,18"/><polygon points="1020,8 1024,4 1028,8 1024,6"/><polygon points="1020,16 1024,20 1028,16 1024,18"/><polygon points="1140,8 1144,4 1148,8 1144,6"/><polygon points="1140,16 1144,20 1148,16 1144,18"/></g></svg></div>
 
 <section class="ca-section reveal">
   <div class="stencil" style="margin-bottom:8px">&#9670; Classified &#9670;</div>
@@ -442,44 +442,46 @@
   </div>
 </section>
 
-<section class="intel-section reveal" id="intel">
-  <div class="label">&#9762; Operative Status</div>
-  <h2>Field Intelligence</h2>
-  <p>Authenticate your identity to access classified supply manifests and payout records. Phantom clearance required.</p>
+<section class="section reveal" id="intel" style="text-align:center">
+  <div class="label">&#9762; War Room Overview</div>
+  <h2>Bunker Status Report</h2>
+  <p style="margin:0 auto 48px">Real-time intelligence on treasury operations, resource allocation, and shelter occupancy.</p>
 
-  <div class="wallet-connect-box ticked" id="walletConnectBox">
-    <div class="tick-bl"></div><div class="tick-br"></div>
-    <div class="stencil" style="margin-bottom:12px">&#9670; Authentication Required &#9670;</div>
-    <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px">No operative credentials detected. Connect your Phantom wallet to access field intelligence.</p>
-    <button class="btn btn-primary" id="connectBtn" onclick="document.getElementById('walletConnectBox').style.display='none';document.getElementById('walletStatus').classList.add('active')">&#9762; Connect Phantom</button>
+  <!-- PIE CHART -->
+  <div style="display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;margin-bottom:48px">
+    <div style="position:relative;width:200px;height:200px">
+      <svg viewBox="0 0 200 200" style="transform:rotate(-90deg)">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="var(--mud-light)" stroke-width="24"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#b8860b" stroke-width="24" stroke-dasharray="120 503" stroke-dashoffset="0"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#a0a0a0" stroke-width="24" stroke-dasharray="100 503" stroke-dashoffset="-120"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#2d2d2d" stroke-width="24" stroke-dasharray="80 503" stroke-dashoffset="-220"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#4a6741" stroke-width="24" stroke-dasharray="100 503" stroke-dashoffset="-300"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#1a3a5c" stroke-width="24" stroke-dasharray="103 503" stroke-dashoffset="-400"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column">
+        <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--text)">5</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1px">ASSETS</div>
+      </div>
+    </div>
+    <div style="text-align:left;font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#b8860b;display:inline-block"></span> Gold (GLDon) <span style="color:var(--text-dim);margin-left:auto">24%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#a0a0a0;display:inline-block"></span> Silver (SLVon) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#2d2d2d;display:inline-block"></span> Crude Oil (USOon) <span style="color:var(--text-dim);margin-left:auto">16%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#4a6741;display:inline-block"></span> Exxon (XOMx) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="width:12px;height:12px;background:#1a3a5c;display:inline-block"></span> Chevron (CVXx) <span style="color:var(--text-dim);margin-left:auto">20%</span></div>
+    </div>
   </div>
 
-  <div class="wallet-status" id="walletStatus">
-    <div class="stencil" style="margin-bottom:12px">&#9670; Operative Identified &#9670;</div>
-    <div class="wallet-addr">7xKp...F3mQ</div>
+  <!-- OVERVIEW STATS -->
+  <div class="stats" style="margin-bottom:0">
+    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Total Distributed</div></div>
+    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Distribution Cycles</div></div>
+    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Unique Holders</div></div>
+    <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Fees Claimed</div></div>
+  </div>
 
-    <div class="stencil" style="margin-bottom:8px">Commodity Holdings</div>
-    <div class="holdings-grid">
-      <div class="holding"><div class="holding-val">1,247</div><div class="holding-lbl">$BUNKER</div></div>
-      <div class="holding"><div class="holding-val">0.034</div><div class="holding-lbl">Gold (GLDon)</div></div>
-      <div class="holding"><div class="holding-val">1.82</div><div class="holding-lbl">Silver (SLVon)</div></div>
-    </div>
-    <div class="holdings-grid" style="margin-bottom:32px">
-      <div class="holding"><div class="holding-val">0.15</div><div class="holding-lbl">Crude (USOon)</div></div>
-      <div class="holding"><div class="holding-val">0.008</div><div class="holding-lbl">Exxon (XOMx)</div></div>
-      <div class="holding"><div class="holding-val">0.005</div><div class="holding-lbl">Chevron (CVXx)</div></div>
-    </div>
-
-    <div class="stencil" style="margin-bottom:8px">Recent Resupply Drops</div>
-    <table class="payout-table">
-      <thead><tr><th>Timestamp</th><th>Asset</th><th>Amount</th><th>TX</th></tr></thead>
-      <tbody>
-        <tr><td>2026-01-15 14:30</td><td>GLDon</td><td>0.012</td><td style="color:var(--amber)">4xR...9kP</td></tr>
-        <tr><td>2026-01-15 14:00</td><td>SLVon</td><td>0.64</td><td style="color:var(--amber)">8mT...2wQ</td></tr>
-        <tr><td>2026-01-15 13:30</td><td>USOon</td><td>0.05</td><td style="color:var(--amber)">Lp3...7nR</td></tr>
-        <tr><td>2026-01-15 13:00</td><td>XOMx</td><td>0.003</td><td style="color:var(--amber)">9vK...4jS</td></tr>
-      </tbody>
-    </table>
+  <div style="margin-top:32px">
+    <a href="dashboard.html" class="btn btn-primary" style="padding:14px 32px">&#9762; Open Field Intelligence Dashboard</a>
   </div>
 </section>
 

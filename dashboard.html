@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$BUNKER — Field Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#0a0b08;--surface:#111210;--surface2:#181a15;
+    --border:rgba(74,103,65,0.1);--border-hard:rgba(74,103,65,0.18);
+    --green:#4a6741;--green-bright:#5c8a50;--green-dim:rgba(74,103,65,0.06);
+    --red:#6b1a1a;--mud:#2a2218;--mud-light:#3d3425;
+    --text:#e0dbd0;--text-dim:#8a8475;--text-muted:#4a4540;
+    --mono:'JetBrains Mono',monospace;--display:'Outfit',sans-serif;
+  }
+  body{background:var(--bg);color:var(--text);font-family:var(--display);line-height:1.6;-webkit-font-smoothing:antialiased;cursor:crosshair;
+    background-image:radial-gradient(ellipse at 30% 80%,rgba(60,45,20,0.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 20%,rgba(40,50,30,0.06) 0%,transparent 40%);
+  }
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(rgba(74,103,65,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(74,103,65,0.02) 1px,transparent 1px);background-size:80px 80px}
+  .page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:40px 24px 80px}
+
+  .back{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:32px}
+  .back:hover{color:var(--text)}
+
+  .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green-bright)}
+  .stencil{font-family:var(--mono);font-weight:600;letter-spacing:6px;text-transform:uppercase;color:var(--text-muted);font-size:11px}
+  h1{font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:-0.5px;text-transform:uppercase;margin:8px 0 24px}
+
+  /* CONNECT BOX */
+  .connect-box{padding:48px 32px;background:var(--surface);border:1px solid var(--border);text-align:center;margin-bottom:32px}
+  .btn{padding:12px 28px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:crosshair;transition:all .2s;display:inline-block;text-decoration:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--green);color:var(--bg)}
+  .btn-primary:hover{background:var(--green-bright);box-shadow:0 0 20px rgba(74,103,65,0.2)}
+
+  /* DASHBOARD */
+  .dashboard{display:none}
+  .dashboard.active{display:block}
+
+  .wallet-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);margin-bottom:24px;flex-wrap:wrap;gap:8px}
+  .wallet-bar code{font-family:var(--mono);font-size:13px;color:var(--green-bright)}
+  .wallet-bar .disconnect{font-family:var(--mono);font-size:10px;color:var(--text-dim);cursor:crosshair;letter-spacing:1px;text-transform:uppercase}
+  .wallet-bar .disconnect:hover{color:var(--red)}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:24px}
+  .grid-3 .cell{background:var(--bg);padding:24px 18px;text-align:center}
+  .cell-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--green-bright);font-variant-numeric:tabular-nums}
+  .cell-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+  .cell-icon{width:28px;height:28px;border-radius:4px;object-fit:cover;margin:0 auto 8px;display:block;border:1px solid var(--border)}
+
+  .section-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green-bright);margin:32px 0 12px}
+
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+  th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-hard);color:var(--green-bright);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+  td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-dim)}
+  tr:hover td{background:var(--green-dim)}
+  .tx-link{color:var(--green-bright);text-decoration:none}
+  .tx-link:hover{text-decoration:underline}
+
+  @media(max-width:768px){.grid-3{grid-template-columns:1fr}.page{padding:24px 16px 60px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a href="index.html" class="back">&#9664; Back to Bunker</a>
+
+  <div class="label">&#9762; Operative Status</div>
+  <h1>Field Intelligence</h1>
+
+  <!-- CONNECT STATE -->
+  <div class="connect-box" id="connectBox">
+    <div class="stencil" style="margin-bottom:16px">&#9670; Authentication Required &#9670;</div>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">Connect your Phantom wallet to access classified supply manifests, commodity holdings, and payout records.</p>
+    <button class="btn btn-primary" onclick="document.getElementById('connectBox').style.display='none';document.getElementById('dash').classList.add('active')">&#9762; Connect Phantom</button>
+  </div>
+
+  <!-- DASHBOARD STATE -->
+  <div class="dashboard" id="dash">
+
+    <div class="wallet-bar">
+      <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:1px">OPERATIVE:</span> <code>7xKp...F3mQ</code></div>
+      <span class="disconnect" onclick="document.getElementById('dash').classList.remove('active');document.getElementById('connectBox').style.display='block'">Disconnect</span>
+    </div>
+
+    <div class="section-label">&#9670; Token Holdings</div>
+    <div class="grid-3">
+      <div class="cell"><div class="cell-val">12,470</div><div class="cell-lbl">$BUNKER Held</div></div>
+      <div class="cell"><div class="cell-val">0.82%</div><div class="cell-lbl">Supply Share</div></div>
+      <div class="cell"><div class="cell-val">47</div><div class="cell-lbl">Resupplies Received</div></div>
+    </div>
+
+    <div class="section-label">&#9670; Commodity Holdings</div>
+    <div class="grid-3">
+      <div class="cell"><img class="cell-icon" src="gold.webp" alt="Gold"><div class="cell-val">0.034</div><div class="cell-lbl">Gold (GLDon)</div></div>
+      <div class="cell"><img class="cell-icon" src="silver.png" alt="Silver"><div class="cell-val">1.82</div><div class="cell-lbl">Silver (SLVon)</div></div>
+      <div class="cell"><img class="cell-icon" src="crudeoil.webp" alt="Oil"><div class="cell-val">0.15</div><div class="cell-lbl">Crude (USOon)</div></div>
+    </div>
+    <div class="grid-3">
+      <div class="cell"><img class="cell-icon" src="exxon.webp" alt="Exxon"><div class="cell-val">0.008</div><div class="cell-lbl">Exxon (XOMx)</div></div>
+      <div class="cell"><img class="cell-icon" src="chevron.png" alt="Chevron"><div class="cell-val">0.005</div><div class="cell-lbl">Chevron (CVXx)</div></div>
+      <div class="cell"><div class="cell-val" style="color:var(--text-dim)">—</div><div class="cell-lbl">Total Value (USD)</div></div>
+    </div>
+
+    <div class="section-label">&#9670; Recent Resupply Drops</div>
+    <table>
+      <thead><tr><th>Timestamp</th><th>Asset</th><th>Amount</th><th>TX</th></tr></thead>
+      <tbody>
+        <tr><td>2026-01-15 14:30</td><td>GLDon</td><td>0.012</td><td><a class="tx-link" href="#">4xR...9kP</a></td></tr>
+        <tr><td>2026-01-15 14:00</td><td>SLVon</td><td>0.64</td><td><a class="tx-link" href="#">8mT...2wQ</a></td></tr>
+        <tr><td>2026-01-15 13:30</td><td>USOon</td><td>0.05</td><td><a class="tx-link" href="#">Lp3...7nR</a></td></tr>
+        <tr><td>2026-01-15 13:00</td><td>XOMx</td><td>0.003</td><td><a class="tx-link" href="#">9vK...4jS</a></td></tr>
+        <tr><td>2026-01-15 12:30</td><td>CVXx</td><td>0.002</td><td><a class="tx-link" href="#">Hk7...mW2</a></td></tr>
+        <tr><td>2026-01-15 12:00</td><td>GLDon</td><td>0.011</td><td><a class="tx-link" href="#">Qp4...xN8</a></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+</body>
+</html>
