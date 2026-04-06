@@ -117,22 +117,42 @@
   </div>
 </div>
 <script>
-const API_BASE = ''; // Set to backend URL when deployed, e.g. 'https://bunker-backend.up.railway.app'
+const API_BASE = '';
+const MOCK_WALLET = 'GD41K9hrPJZEU9EdWvJfwyBTp3daABeT4ShJds5DcKpL';
 
 const $ = id => document.getElementById(id);
 const trunc = a => a.slice(0,4)+'...'+a.slice(-4);
+
+const MOCK_DATA = {
+  holderInfo: { balance: '847,230', share: '1.24%' },
+  distributions: [
+    { distributed_at: '2026-04-06 14:30', commodity_symbol: 'GLDon', amount: '0.0182', tx_signature: '5xRk9pW2mNvT3qYbL8dFjH4cKs7eA6wZnXuG1rBfJoC' },
+    { distributed_at: '2026-04-06 14:30', commodity_symbol: 'SLVon', amount: '2.41', tx_signature: '3mTq8nK5vRxW2pYcL7dFjH4bAs9eG6wZnXuJ1rBfKoD' },
+    { distributed_at: '2026-04-06 14:30', commodity_symbol: 'USOon', amount: '0.087', tx_signature: '7pLn2kR5vTxW8qYbM3dFjH4cKs6eA9wZnXuG1rBfJoE' },
+    { distributed_at: '2026-04-06 14:00', commodity_symbol: 'XOMx', amount: '0.0034', tx_signature: '9vKn4jS8mTq2pRxW5dFjH7cLs3eA6wZnXuG1rBfKoF' },
+    { distributed_at: '2026-04-06 14:00', commodity_symbol: 'CVXx', amount: '0.0021', tx_signature: '2wQn6kR8mTq5pYxL3dFjH4cKs9eA7wZnXuG1rBfJoG' },
+    { distributed_at: '2026-04-06 13:30', commodity_symbol: 'GLDon', amount: '0.0175', tx_signature: '4xRn9kP5mTq2pYbL8dFjH7cKs3eA6wZnXuG1rBfKoH' },
+    { distributed_at: '2026-04-06 13:30', commodity_symbol: 'SLVon', amount: '2.33', tx_signature: '8mTn2wQ5vRxK3pYcL7dFjH4bAs9eG6wZnXuJ1rBfKoI' },
+    { distributed_at: '2026-04-06 13:00', commodity_symbol: 'USOon', amount: '0.082', tx_signature: 'Lp3n7nR5vTxW8qYbM3dFjH4cKs6eA9wZnXuG1rBfJoJ' },
+  ],
+  totalCommoditiesReceived: { GLDon: '0.284', SLVon: '18.7', USOon: '0.93', XOMx: '0.041', CVXx: '0.028' }
+};
 
 const params = new URLSearchParams(location.search);
 let wallet = params.get('wallet');
 
 async function connectPhantom() {
-  if (!window.solana || !window.solana.isPhantom) { window.open('https://phantom.app','_blank'); return; }
-  try {
-    const resp = await window.solana.connect();
-    wallet = resp.publicKey.toString();
-    history.replaceState(null,'','?wallet='+wallet);
-    loadDashboard();
-  } catch(e) {}
+  const provider = window.phantom?.solana || window.solana;
+  if (provider?.isPhantom) {
+    try {
+      const resp = await provider.connect();
+      wallet = resp.publicKey.toString();
+      history.replaceState(null,'','?wallet='+wallet);
+      loadDashboard();
+    } catch(e) { console.error('Connect failed:', e); }
+  } else {
+    window.open('https://phantom.app/download','_blank');
+  }
 }
 
 async function loadDashboard() {
@@ -140,33 +160,34 @@ async function loadDashboard() {
   $('dash').classList.add('active');
   $('walletDisplay').textContent = trunc(wallet);
 
+  let d = null;
   try {
     const r = await fetch(`${API_BASE}/api/public/wallet?address=${wallet}`);
-    if (!r.ok) return;
-    const d = await r.json();
-
-    if (d.holderInfo) {
-      if (d.holderInfo.balance != null) $('wifHeld').textContent = d.holderInfo.balance;
-      if (d.holderInfo.share != null) $('supplyShare').textContent = d.holderInfo.share;
-    }
-
-    if (d.distributions) $('resupplyCount').textContent = d.distributions.length;
-
-    if (d.totalCommoditiesReceived) {
-      for (const [k,v] of Object.entries(d.totalCommoditiesReceived)) {
-        const el = $('val-'+k);
-        if (el) el.textContent = v;
-      }
-    }
-
-    if (d.distributions && d.distributions.length) {
-      $('payoutBody').innerHTML = d.distributions.map(p => {
-        const sig = p.tx_signature || '';
-        const link = sig ? `<a class="tx-link" href="https://solscan.io/tx/${sig}" target="_blank">${trunc(sig)}</a>` : '—';
-        return `<tr><td>${p.distributed_at||'—'}</td><td>${p.commodity_symbol||'—'}</td><td>${p.amount||'—'}</td><td>${link}</td></tr>`;
-      }).join('');
-    }
+    if (r.ok) d = await r.json();
   } catch(e) {}
+
+  // Use mock data if API unavailable or wallet matches mock
+  if (!d || !d.holderInfo) d = (wallet === MOCK_WALLET) ? MOCK_DATA : null;
+  if (!d) return;
+
+  if (d.holderInfo) {
+    if (d.holderInfo.balance != null) $('wifHeld').textContent = d.holderInfo.balance;
+    if (d.holderInfo.share != null) $('supplyShare').textContent = d.holderInfo.share;
+  }
+  if (d.distributions) $('resupplyCount').textContent = d.distributions.length;
+  if (d.totalCommoditiesReceived) {
+    for (const [k,v] of Object.entries(d.totalCommoditiesReceived)) {
+      const el = $('val-'+k);
+      if (el) el.textContent = v;
+    }
+  }
+  if (d.distributions && d.distributions.length) {
+    $('payoutBody').innerHTML = d.distributions.map(p => {
+      const sig = p.tx_signature || '';
+      const link = sig ? `<a class="tx-link" href="https://solscan.io/tx/${sig}" target="_blank">${trunc(sig)}</a>` : '—';
+      return `<tr><td>${p.distributed_at||'—'}</td><td>${p.commodity_symbol||'—'}</td><td>${p.amount||'—'}</td><td>${link}</td></tr>`;
+    }).join('');
+  }
 }
 
 $('connectBtn').addEventListener('click', connectPhantom);
