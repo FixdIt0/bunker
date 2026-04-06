@@ -8,11 +8,12 @@
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --bg:#08080a;--surface:#0e0e11;--surface2:#141418;
-    --border:rgba(74,103,65,0.08);--border-hard:rgba(74,103,65,0.15);
+    --bg:#0a0b08;--surface:#111210;--surface2:#181a15;
+    --border:rgba(74,103,65,0.1);--border-hard:rgba(74,103,65,0.18);
     --amber:#4a6741;--amber-bright:#5c8a50;--amber-dim:rgba(74,103,65,0.06);
     --amber-glow:rgba(74,103,65,0.12);--red:#6b1a1a;
-    --text:#d4cfc2;--text-dim:#6a6560;--text-muted:#3a3835;
+    --text:#c8c2b0;--text-dim:#6a6455;--text-muted:#3a3530;
+    --mud:#2a2218;--mud-light:#3d3425;
     --mono:'JetBrains Mono',monospace;--display:'Outfit',sans-serif;
   }
   body{
@@ -47,6 +48,44 @@
     height:4px;
     background:repeating-linear-gradient(45deg,var(--amber),var(--amber) 10px,transparent 10px,transparent 20px);
     opacity:0.15;
+  }
+
+  /* BARBED WIRE SVG DIVIDER */
+  .barbed-wire{
+    width:100%;height:20px;opacity:0.12;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='20' viewBox='0 0 200 20'%3E%3Cpath d='M0 10h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h20' stroke='%234a6741' fill='none' stroke-width='1.5'/%3E%3Ccircle cx='18' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='63' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='108' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='153' cy='10' r='2' fill='%234a6741'/%3E%3C/svg%3E") repeat-x center;
+  }
+
+  /* MUD SPLATTER OVERLAY */
+  .mud-overlay{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.04;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='6' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23m)'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+
+  /* SCRATCHES OVERLAY */
+  .scratches{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.025;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cline x1='20' y1='0' x2='80' y2='300' stroke='%23fff' stroke-width='0.5'/%3E%3Cline x1='120' y1='0' x2='200' y2='300' stroke='%23fff' stroke-width='0.3'/%3E%3Cline x1='250' y1='0' x2='150' y2='300' stroke='%23fff' stroke-width='0.4'/%3E%3Cline x1='0' y1='80' x2='300' y2='120' stroke='%23fff' stroke-width='0.3'/%3E%3Cline x1='0' y1='200' x2='300' y2='240' stroke='%23fff' stroke-width='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* ROUGH EDGE SECTIONS */
+  .rough-top{
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='12' viewBox='0 0 1200 12'%3E%3Cpath d='M0 6c20-4 40 2 60-1s40 3 60-2 40 4 60 0 40-3 60 1 40 2 60-1 40-2 60 2 40 3 60-1 40-4 60 0 40 3 60-2 40 2 60 1 40-3 60-1 40 4 60 2 40-2 60 0 40 3 60-1 40-4 60 1 40 2 60-2 40 3 60 0 40-3 60 2V12H0z' fill='white'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='12' viewBox='0 0 1200 12'%3E%3Cpath d='M0 6c20-4 40 2 60-1s40 3 60-2 40 4 60 0 40-3 60 1 40 2 60-1 40-2 60 2 40 3 60-1 40-4 60 0 40 3 60-2 40 2 60 1 40-3 60-1 40 4 60 2 40-2 60 0 40 3 60-1 40-4 60 1 40 2 60-2 40 3 60 0 40-3 60 2V12H0z' fill='white'/%3E%3C/svg%3E");
+    -webkit-mask-size:100% 12px;mask-size:100% 12px;
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-position:top;mask-position:top;
+    padding-top:12px;
+  }
+
+  /* MUDDY BG TINT */
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(ellipse at 30% 80%, rgba(60,45,20,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 20%, rgba(40,50,30,0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 50%, rgba(30,25,15,0.1) 0%, transparent 60%);
   }
 
   /* RED ALERT BAR */
@@ -156,10 +195,11 @@
   .res-row{
     display:flex;align-items:center;gap:14px;
     padding:14px 18px;background:var(--surface);border:1px solid var(--border);
-    transition:all .25s;
+    transition:all .25s;border-left:3px solid var(--mud-light);
   }
-  .res-row:hover{border-color:var(--border-hard);background:var(--surface2);transform:translateY(-2px);box-shadow:0 0 16px rgba(74,103,65,0.06)}
+  .res-row:hover{border-color:var(--border-hard);background:var(--surface2);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.3),0 0 12px rgba(74,103,65,0.06);border-left-color:var(--amber)}
   .res-row svg{width:28px;height:28px;flex-shrink:0;color:var(--amber)}
+  .res-row img{width:32px;height:32px;flex-shrink:0;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
   .res-info{flex:1}
   .res-name{font-weight:600;font-size:14px}
   .res-ticker{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px}
@@ -177,7 +217,7 @@
     background:var(--border);border:1px solid var(--border);
     max-width:1200px;margin:0 auto;
   }
-  .stat{background:var(--bg);padding:32px 24px;text-align:center}
+  .stat{background:var(--bg);padding:32px 24px;text-align:center;border-bottom:2px solid var(--mud)}
   .stat-val{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--amber);font-variant-numeric:tabular-nums}
   .stat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:6px}
 
@@ -188,7 +228,7 @@
 
   /* STEPS */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);counter-reset:step}
-  .step{background:var(--bg);padding:32px 24px;counter-increment:step;position:relative}
+  .step{background:var(--bg);padding:32px 24px;counter-increment:step;position:relative;border-left:2px solid var(--mud-light)}
   .step::before{
     content:"0" counter(step);font-family:var(--mono);font-size:11px;font-weight:600;
     color:var(--amber);letter-spacing:1px;display:block;margin-bottom:16px;
@@ -197,7 +237,9 @@
   .step p{font-size:13px;color:var(--text-dim);line-height:1.6}
 
   /* CA */
-  .ca-section{text-align:center;padding:80px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+  .ca-section{text-align:center;padding:80px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='c'%3E%3CfeTurbulence baseFrequency='0.04' numOctaves='5' seed='8'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23c)' opacity='0.03'/%3E%3C/svg%3E");
+  }
   .ca-addr{
     font-family:var(--mono);font-size:clamp(11px,2vw,15px);color:var(--amber);
     cursor:pointer;padding:14px 28px;border:1px dashed var(--border-hard);
@@ -268,13 +310,15 @@
 <body>
 <div class="hero-glow"></div>
 <div class="scanlines"></div>
+<div class="mud-overlay"></div>
+<div class="scratches"></div>
 <div class="crt-vignette"></div>
 <div class="page">
 
 <!-- ALERT -->
 <div class="alert-bar">&#9762; Civil Defense Broadcast — Resource hoarding detected across Eastern Bloc — Secure your reserves &#9762;</div>
 
-<div class="danger-stripe"></div>
+<div class="barbed-wire"></div>
 
 <div class="ticker">
   <div class="ticker-track">
@@ -299,27 +343,27 @@
   <div class="resource-stack" style="position:relative">
     <div style="position:absolute;top:-30px;right:0" class="stencil">&#9670; Inventory Manifest &#9670;</div>
     <div class="res-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 9h3.5a2 2 0 010 4H10m0 0h3a2 2 0 010 4H9m1-8v-1.5m0 11V17"/></svg>
+      <img src="gold.webp" alt="Gold">
       <div class="res-info"><div class="res-name">Gold</div><div class="res-ticker">GLDon &nbsp;<span style="color:#c44;font-size:9px">FORT KNOX RESERVES DECLINING</span></div></div>
       <div class="res-tag">Secured</div>
     </div>
     <div class="res-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2.5 6h6.5l-5 4 2 6.5L12 16l-6 3.5 2-6.5-5-4h6.5z"/></svg>
+      <img src="silver.png" alt="Silver">
       <div class="res-info"><div class="res-name">Silver</div><div class="res-ticker">SLVon &nbsp;<span style="color:#c44;font-size:9px">INDUSTRIAL DEMAND SURGING</span></div></div>
       <div class="res-tag">Secured</div>
     </div>
     <div class="res-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M6 8h12M10 12h4m-2-2v4"/></svg>
+      <img src="crudeoil.webp" alt="Crude Oil">
       <div class="res-info"><div class="res-name">Crude Oil</div><div class="res-ticker">USOon &nbsp;<span style="color:#c44;font-size:9px">1973 EMBARGO REPEATING</span></div></div>
       <div class="res-tag">Secured</div>
     </div>
     <div class="res-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <img src="exxon.webp" alt="Exxon Mobil">
       <div class="res-info"><div class="res-name">Exxon Mobil</div><div class="res-ticker">XOMx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
       <div class="res-tag">Secured</div>
     </div>
     <div class="res-row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20V10l8-6 8 6v10H4z"/><path d="M9 20v-6h6v6"/></svg>
+      <img src="chevron.png" alt="Chevron">
       <div class="res-info"><div class="res-name">Chevron</div><div class="res-ticker">CVXx &nbsp;<span style="color:var(--amber);font-size:9px">STRATEGIC</span></div></div>
       <div class="res-tag">Secured</div>
     </div>
@@ -327,7 +371,7 @@
   </div>
 </section>
 
-<div class="danger-stripe"></div>
+<div class="barbed-wire"></div>
 
 <div class="stats reveal">
   <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">War Chest</div></div>
@@ -336,7 +380,7 @@
   <div class="stat"><div class="stat-val flash-val">30:00</div><div class="stat-lbl">Next Resupply</div></div>
 </div>
 
-<div class="danger-stripe"></div>
+<div class="barbed-wire"></div>
 
 <div class="divider" style="margin:80px auto"></div>
 
@@ -362,7 +406,7 @@
   </div>
 </section>
 
-<div class="danger-stripe"></div>
+<div class="barbed-wire"></div>
 
 <section class="ca-section reveal">
   <div class="stencil" style="margin-bottom:8px">&#9670; Classified &#9670;</div>
