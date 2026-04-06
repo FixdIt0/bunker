@@ -131,7 +131,7 @@ tr:hover td{background:var(--gb)}
 </div>
 
 <script>
-const API_BASE = 'https://bunker-production-62d9.up.railway.app';
+const API_BASE = 'https://bunker-backend-production.up.railway.app';
 const trunc = a => a.slice(0,4)+'...'+a.slice(-4);
 const txLink = sig => sig ? `<a class="sol-link" href="https://solscan.io/tx/${sig}" target="_blank">${trunc(sig)}</a>` : '—';
 const walletLink = addr => addr ? `<a class="sol-link" href="https://solscan.io/account/${addr}" target="_blank">${trunc(addr)}</a>` : '—';
