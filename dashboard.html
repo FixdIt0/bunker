@@ -98,7 +98,7 @@
     <div class="grid-3">
       <div class="cell"><img class="cell-icon" src="gold.webp" alt="Gold"><div class="cell-val" id="val-GLDon">—</div><div class="cell-lbl">Gold (GLDon)</div></div>
       <div class="cell"><img class="cell-icon" src="silver.png" alt="Silver"><div class="cell-val" id="val-SLVon">—</div><div class="cell-lbl">Silver (SLVon)</div></div>
-      <div class="cell"><img class="cell-icon" src="crudeoil.webp" alt="Oil"><div class="cell-val" id="val-USOon">—</div><div class="cell-lbl">Crude (USOon)</div></div>
+      <div class="cell-lbl">Crude (USOon)</div></div>
     </div>
     <div class="grid-3">
       <div class="cell"><img class="cell-icon" src="exxon.webp" alt="Exxon"><div class="cell-val" id="val-XOMx">—</div><div class="cell-lbl">Exxon (XOMx)</div></div>
@@ -128,14 +128,12 @@ const MOCK_DATA = {
   distributions: [
     { distributed_at: '2026-04-06 14:30', commodity_symbol: 'GLDon', amount: '0.0182', tx_signature: '5xRk9pW2mNvT3qYbL8dFjH4cKs7eA6wZnXuG1rBfJoC' },
     { distributed_at: '2026-04-06 14:30', commodity_symbol: 'SLVon', amount: '2.41', tx_signature: '3mTq8nK5vRxW2pYcL7dFjH4bAs9eG6wZnXuJ1rBfKoD' },
-    { distributed_at: '2026-04-06 14:30', commodity_symbol: 'USOon', amount: '0.087', tx_signature: '7pLn2kR5vTxW8qYbM3dFjH4cKs6eA9wZnXuG1rBfJoE' },
     { distributed_at: '2026-04-06 14:00', commodity_symbol: 'XOMx', amount: '0.0034', tx_signature: '9vKn4jS8mTq2pRxW5dFjH7cLs3eA6wZnXuG1rBfKoF' },
     { distributed_at: '2026-04-06 14:00', commodity_symbol: 'CVXx', amount: '0.0021', tx_signature: '2wQn6kR8mTq5pYxL3dFjH4cKs9eA7wZnXuG1rBfJoG' },
     { distributed_at: '2026-04-06 13:30', commodity_symbol: 'GLDon', amount: '0.0175', tx_signature: '4xRn9kP5mTq2pYbL8dFjH7cKs3eA6wZnXuG1rBfKoH' },
     { distributed_at: '2026-04-06 13:30', commodity_symbol: 'SLVon', amount: '2.33', tx_signature: '8mTn2wQ5vRxK3pYcL7dFjH4bAs9eG6wZnXuJ1rBfKoI' },
-    { distributed_at: '2026-04-06 13:00', commodity_symbol: 'USOon', amount: '0.082', tx_signature: 'Lp3n7nR5vTxW8qYbM3dFjH4cKs6eA9wZnXuG1rBfJoJ' },
   ],
-  totalCommoditiesReceived: { GLDon: '0.284', SLVon: '18.7', USOon: '0.93', XOMx: '0.041', CVXx: '0.028' }
+  totalCommoditiesReceived: { GLDon: '0.284', SLVon: '18.7', XOMx: '0.041', CVXx: '0.028' }
 };
 
 const params = new URLSearchParams(location.search);
