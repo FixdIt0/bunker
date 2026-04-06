@@ -37,16 +37,25 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);overflow-x:hidd
 .r-scale.v{opacity:1;transform:scale(1)}
 .delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}.delay-3{transition-delay:.3s}.delay-4{transition-delay:.4s}.delay-5{transition-delay:.5s}
 
-/* ── PARALLAX ── */
-[data-speed]{will-change:transform;transition:transform .1s linear}
-
 /* ── SECTIONS ── */
-.sec{display:flex;flex-direction:column;justify-content:center;padding:80px 60px;position:relative;z-index:1}
+.sec{display:flex;flex-direction:column;justify-content:center;padding:60px;position:relative;z-index:1}
 .sec-center{text-align:center;align-items:center}
 .label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:16px}
 .big{font-size:clamp(36px,7vw,80px);font-weight:900;line-height:1;letter-spacing:-3px;text-transform:uppercase;margin-bottom:24px}
 .big span{color:var(--g)}
 .sub{font-size:clamp(16px,1.8vw,20px);color:var(--td);max-width:580px;line-height:1.8}
+
+/* ── ALERT ── */
+.alert{position:fixed;top:0;left:0;right:0;z-index:102;background:var(--red);padding:8px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#e8a0a0;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ── TOP BAR ── */
+.topbar{position:fixed;top:32px;left:0;right:0;z-index:101;background:rgba(10,11,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(74,103,65,.08);padding:0 20px;display:flex;align-items:center;gap:16px;height:36px;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.topbar img{width:24px;height:24px;border-radius:4px}
+.topbar a{color:var(--td);text-decoration:none;transition:color .2s}
+.topbar a:hover{color:var(--g)}
+.topbar .spacer{flex:1}
+.topbar .dash-link{color:var(--g)}
 
 /* ── HERO ── */
 .hero{min-height:100dvh;display:flex;align-items:center;position:relative;padding:0 60px}
@@ -62,20 +71,15 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);overflow-x:hidd
 .scroll-arrow::after{content:'';width:2px;height:6px;background:var(--g);border-radius:1px;position:absolute;top:4px;left:50%;transform:translateX(-50%);animation:scrollDot 1.5s ease-in-out infinite}
 @keyframes scrollDot{0%,100%{transform:translateX(-50%) translateY(0);opacity:1}50%{transform:translateX(-50%) translateY(6px);opacity:.3}}
 
-/* ── ALERT ── */
-.alert{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--red);padding:8px;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#e8a0a0;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-
 /* ── COMMODITY DEEP DIVE ── */
-.commodity{display:grid;grid-template-columns:200px 1fr;align-items:center;gap:48px;padding:60px;max-width:1100px;margin:0 auto;position:relative;z-index:1}
-.commodity+.commodity{margin-top:20px}
-.commodity.flip{grid-template-columns:1fr 200px}
+.commodity{display:grid;grid-template-columns:160px 1fr;align-items:center;gap:40px;padding:60px 20px;max-width:1000px;margin:0 auto;position:relative;z-index:1;border-top:1px solid rgba(74,103,65,.08)}
+.commodity.flip{grid-template-columns:1fr 160px}
 .commodity.flip .comm-visual{order:2}
 .commodity.flip .comm-text{order:1}
-.comm-visual{display:flex;align-items:center;justify-content:center;position:relative;min-height:200px}
-.comm-img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid rgba(74,103,65,.2);box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;z-index:2}
-.comm-ring{position:absolute;width:160px;height:160px;border:1px solid rgba(74,103,65,.1);border-radius:50%;animation:ringPulse 3s ease-in-out infinite}
-.comm-ring:nth-child(2){width:190px;height:190px;animation-delay:.5s;opacity:.5}
+.comm-visual{display:flex;align-items:center;justify-content:center;position:relative;min-height:160px}
+.comm-img{width:120px;height:120px;border:none;border-radius:0;object-fit:cover;box-shadow:0 12px 40px rgba(0,0,0,.4);position:relative;z-index:2}
+.comm-ring{position:absolute;width:140px;height:140px;border:1px solid rgba(74,103,65,.1);border-radius:50%;animation:ringPulse 3s ease-in-out infinite}
+.comm-ring:nth-child(2){width:170px;height:170px;animation-delay:.5s;opacity:.5}
 @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.12}50%{transform:scale(1.04);opacity:.06}}
 .comm-text .label{margin-bottom:8px}
 .comm-text h2{font-size:clamp(22px,3vw,32px);font-weight:800;line-height:1.1;letter-spacing:-1px;text-transform:uppercase;margin-bottom:12px}
@@ -95,20 +99,28 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);overflow-x:hidd
 .op-card h3{font-size:17px;font-weight:700;margin-bottom:10px;position:relative;z-index:1}
 .op-card p{font-size:13px;color:var(--td);line-height:1.7;position:relative;z-index:1}
 
-/* ── EVIDENCE ── */
+/* ── EVIDENCE / WAR ROOM ── */
 .ev-inner{display:grid;grid-template-columns:260px 1fr;gap:60px;align-items:start;margin-top:48px;max-width:1100px}
 .pie-w{position:relative;width:220px;height:220px}
-.pie-w svg{transform:rotate(-90deg)}
+.pie-w svg{transform:rotate(-90deg);animation:pieSpin 120s linear infinite}
+@keyframes pieSpin{0%{transform:rotate(-90deg)}100%{transform:rotate(270deg)}}
 .pie-c{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .pie-c .n{font-family:var(--mono);font-size:22px;font-weight:700}
 .pie-c .l{font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:1px}
+.pie-seg{stroke-dasharray:0 534;transition:stroke-dasharray 1.2s cubic-bezier(.4,0,.2,1)}
+.pie-seg.anim-in{/* set via JS */}
 .legend{display:flex;flex-direction:column;gap:10px;font-family:var(--mono);font-size:12px}
-.legend-i{display:flex;align-items:center;gap:10px}
+.legend-i{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:4px;transition:all .2s;cursor:default}
+.legend-i:hover{transform:scale(1.04);background:rgba(74,103,65,.06);filter:brightness(1.2)}
 .legend-d{width:10px;height:10px;flex-shrink:0}
+.rebalance-note{font-family:var(--mono);font-size:11px;color:var(--td);letter-spacing:1px;margin-top:24px;max-width:1100px}
 .st-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(74,103,65,.08);border:1px solid rgba(74,103,65,.08);margin-top:40px;max-width:1100px}
-.st-cell{background:var(--bg);padding:28px 20px;text-align:center}
+.st-cell{background:var(--bg);padding:28px 20px;text-align:center;transition:all .25s}
+.st-cell:hover{transform:translateY(-2px);box-shadow:0 0 16px rgba(74,103,65,.12)}
 .st-v{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--g);font-variant-numeric:tabular-nums}
 .st-l{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--td);margin-top:4px}
+.live-dot{display:inline-block;width:6px;height:6px;background:#4ade80;border-radius:50%;margin-right:8px;animation:livePulse 2s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 4px #4ade80}50%{opacity:.4;box-shadow:0 0 8px #4ade80}}
 
 /* ── DEPLOY ── */
 .ca{font-family:var(--mono);font-size:clamp(11px,2vw,15px);color:var(--g);cursor:pointer;padding:16px 32px;border:1px dashed rgba(74,103,65,.2);display:inline-block;transition:all .2s;word-break:break-all;letter-spacing:.5px;margin:20px 0}
@@ -128,8 +140,8 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 
 /* ── MOBILE ── */
 @media(max-width:768px){
-  .sec,.hero{padding:50px 24px}
-  .commodity{grid-template-columns:1fr;padding:40px 24px;gap:24px}
+  .sec,.hero{padding:32px 24px}
+  .commodity{grid-template-columns:1fr;padding:32px 24px;gap:24px}
   .commodity.flip{grid-template-columns:1fr}
   .commodity.flip .comm-visual{order:0}
   .commodity.flip .comm-text{order:0}
@@ -142,6 +154,7 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
   .st-row{grid-template-columns:repeat(2,1fr)}
   .comm-stat{flex-direction:column;gap:12px}
   .scroll-hint{display:none}
+  .topbar{gap:10px;font-size:9px;padding:0 12px}
 }
 @media(max-width:480px){.st-row{grid-template-columns:1fr}.btn-row{flex-direction:column;align-items:center}.btn{width:100%;text-align:center}}
 </style>
@@ -152,32 +165,37 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 <!-- ANIMATED BG -->
 <div class="bg-anim">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
-  <!-- Topo lines -->
   <g class="topo-line"><path d="M0 200c100-40 200 20 300-10s200 30 300-20 200 40 400 0"/><path d="M0 400c150 30 250-20 400 10s200-30 300 20 150-10 300 0" style="animation-delay:-15s"/><path d="M0 600c120-20 280 40 400-10s180 20 300-30 180 40 300 0" style="animation-delay:-30s"/><path d="M0 800c200 20 300-30 400 10s150 30 300-20 200 10 300 0" style="animation-delay:-45s"/></g>
-  <!-- Radar -->
   <g class="radar-sweep"><line x1="500" y1="500" x2="500" y2="100" stroke="rgba(74,103,65,.3)" stroke-width="1"/><path d="M500 500L500 100A400 400 0 0 1 783 217Z" fill="rgba(74,103,65,.03)"/></g>
-  <!-- Grid pulse -->
   <g class="grid-pulse"><line x1="0" y1="250" x2="1000" y2="250" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="0" y1="500" x2="1000" y2="500" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="0" y1="750" x2="1000" y2="750" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="250" y1="0" x2="250" y2="1000" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="500" y1="0" x2="500" y2="1000" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="750" y1="0" x2="750" y2="1000" stroke="rgba(74,103,65,1)" stroke-width=".5"/></g>
-  <!-- Crosshair markers -->
   <g opacity=".06"><circle cx="250" cy="250" r="20" fill="none" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="250" y1="225" x2="250" y2="275" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="225" y1="250" x2="275" y2="250" stroke="rgba(74,103,65,1)" stroke-width=".5"/><circle cx="750" cy="700" r="20" fill="none" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="750" y1="675" x2="750" y2="725" stroke="rgba(74,103,65,1)" stroke-width=".5"/><line x1="725" y1="700" x2="775" y2="700" stroke="rgba(74,103,65,1)" stroke-width=".5"/></g>
 </svg>
 </div>
 
 <div class="alert">&#9762; Civil Defense Broadcast — Resource hoarding detected — Secure your reserves &#9762;</div>
 
+<div class="topbar">
+  <img src="wif-logo.png" alt="WIF">
+  <a href="#">Jupiter</a>
+  <a href="#">DexScreener</a>
+  <a href="#">Pump.fun</a>
+  <a href="https://x.com/" target="_blank">X</a>
+  <div class="spacer"></div>
+  <a href="dashboard.html" class="dash-link">Dashboard</a>
+</div>
+
 <button class="fw" id="floatingWallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><circle cx="16" cy="13" r="2"/><path d="M2 10h20"/></svg>Connect Wallet</button>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-content">
-    <img src="wif-logo.png" class="hero-logo r" alt="WIF" data-speed="0.3">
+    <img src="wif-logo.png" class="hero-logo r" alt="WIF">
     <span class="hero-tag r delay-1">War Index Fund</span>
-    <h1 class="r delay-2" data-speed="0.5">Stockpile<br>real<br><em>resources.</em></h1>
+    <h1 class="r delay-2">Stockpile<br>real<br><em>resources.</em></h1>
     <p class="r delay-3">Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
     <div class="r delay-4"><a href="#threat" class="btn btn-g">&#9762; Begin the Briefing</a></div>
   </div>
-  <!-- Hero SVG art -->
-  <svg class="hero-art" viewBox="0 0 400 400" data-speed="-0.2">
+  <svg class="hero-art" viewBox="0 0 400 400">
     <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(74,103,65,.15)" stroke-width="1" stroke-dasharray="8 4"/>
     <circle cx="200" cy="200" r="100" fill="none" stroke="rgba(74,103,65,.1)" stroke-width="1"/>
     <circle cx="200" cy="200" r="50" fill="none" stroke="rgba(74,103,65,.08)" stroke-width="1"/>
@@ -192,7 +210,7 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 <!-- ═══ THE THREAT ═══ -->
 <section class="sec" id="threat" style="background:linear-gradient(180deg,var(--bg),#0d0e0a,var(--bg))">
   <div class="label r">Chapter I — The Threat</div>
-  <div class="big r" data-speed="0.3">History doesn't<br>repeat. It <span>rhymes.</span></div>
+  <div class="big r">History doesn't<br>repeat. It <span>rhymes.</span></div>
   <div class="sub r">1962: Khrushchev stockpiled missiles. Kennedy stockpiled resolve. The smart money stockpiled gold. In every crisis since — oil embargo '73, Soviet collapse '91, every war, every panic — commodities were the last thing standing.</div>
   <div style="display:flex;gap:40px;margin-top:48px;flex-wrap:wrap">
     <div class="r delay-1" style="border-left:2px solid var(--red);padding-left:16px"><div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--g)">+8,200%</div><div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--td)">Gold since Nixon shock '71</div></div>
@@ -201,7 +219,6 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
   </div>
 </section>
 
-<div style="border-top:1px solid rgba(74,103,65,.08);max-width:1100px;margin:40px auto"></div>
 <!-- ═══ COMMODITY: GOLD ═══ -->
 <section class="commodity">
   <div class="comm-visual r-scale">
@@ -292,7 +309,6 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
   </div>
 </section>
 
-<div style="border-top:1px solid rgba(74,103,65,.08);max-width:1100px;margin:40px auto"></div>
 <!-- ═══ THE OPERATION ═══ -->
 <section class="sec" id="operation">
   <div class="label r">Chapter III — The Operation</div>
@@ -308,17 +324,17 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 
 <!-- ═══ THE EVIDENCE ═══ -->
 <section class="sec" id="evidence" style="background:var(--s1)">
-  <div class="label r">Chapter IV — The Evidence</div>
+  <div class="label r"><span class="live-dot"></span>War Room Status</div>
   <div class="big r">War room <span>status.</span></div>
   <div class="ev-inner r">
-    <div class="pie-w">
+    <div class="pie-w" id="pieChart">
       <svg viewBox="0 0 220 220" width="220" height="220">
         <circle cx="110" cy="110" r="85" fill="none" stroke="rgba(42,34,24,.5)" stroke-width="28"/>
-        <circle cx="110" cy="110" r="85" fill="none" stroke="#b8860b" stroke-width="28" stroke-dasharray="128 534"/>
-        <circle cx="110" cy="110" r="85" fill="none" stroke="#a0a0a0" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-128"/>
-        <circle cx="110" cy="110" r="85" fill="none" stroke="#2d2d2d" stroke-width="28" stroke-dasharray="85 534" stroke-dashoffset="-235"/>
-        <circle cx="110" cy="110" r="85" fill="none" stroke="#4a6741" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-320"/>
-        <circle cx="110" cy="110" r="85" fill="none" stroke="#1a3a5c" stroke-width="28" stroke-dasharray="107 534" stroke-dashoffset="-427"/>
+        <circle class="pie-seg" data-target="128" cx="110" cy="110" r="85" fill="none" stroke="#b8860b" stroke-width="28" stroke-dasharray="0 534" stroke-dashoffset="0"/>
+        <circle class="pie-seg" data-target="107" cx="110" cy="110" r="85" fill="none" stroke="#a0a0a0" stroke-width="28" stroke-dasharray="0 534" stroke-dashoffset="-128"/>
+        <circle class="pie-seg" data-target="85" cx="110" cy="110" r="85" fill="none" stroke="#2d2d2d" stroke-width="28" stroke-dasharray="0 534" stroke-dashoffset="-235"/>
+        <circle class="pie-seg" data-target="107" cx="110" cy="110" r="85" fill="none" stroke="#4a6741" stroke-width="28" stroke-dasharray="0 534" stroke-dashoffset="-320"/>
+        <circle class="pie-seg" data-target="107" cx="110" cy="110" r="85" fill="none" stroke="#1a3a5c" stroke-width="28" stroke-dasharray="0 534" stroke-dashoffset="-427"/>
       </svg>
       <div class="pie-c"><div class="n">5</div><div class="l">Assets</div></div>
     </div>
@@ -330,6 +346,7 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
       <div class="legend-i"><span class="legend-d" style="background:#1a3a5c"></span>Chevron (CVXx)<span style="color:var(--td);margin-left:auto">20%</span></div>
     </div>
   </div>
+  <div class="rebalance-note r">Self-balancing portfolio — rebalances every 30 minutes</div>
   <div class="st-row r">
     <div class="st-cell"><div class="st-v" id="s-chest">—</div><div class="st-l">War Chest (SOL)</div></div>
     <div class="st-cell"><div class="st-v" id="s-dist">—</div><div class="st-l">Total Distributed</div></div>
@@ -363,9 +380,10 @@ const API_BASE='';
 const io=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('v')})},{threshold:.12});
 document.querySelectorAll('.r,.r-left,.r-right,.r-scale').forEach(el=>io.observe(el));
 
-// Parallax
-let ticking=false;
-window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{const sy=window.scrollY;document.querySelectorAll('[data-speed]').forEach(el=>{const s=parseFloat(el.dataset.speed);el.style.transform=`translateY(${sy*s}px)`});ticking=false});ticking=true}});
+// Pie chart animation on scroll
+const pieObs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){document.querySelectorAll('.pie-seg').forEach(s=>{const t=s.getAttribute('data-target');s.style.strokeDasharray=t+' 534'});pieObs.unobserve(el.target)}})},{threshold:.3});
+const pieEl=document.getElementById('pieChart');
+if(pieEl)pieObs.observe(pieEl);
 
 // Stats
 (async()=>{try{const r=await fetch(API_BASE+'/api/public/stats');const d=await r.json();
@@ -376,8 +394,11 @@ document.getElementById('s-cycles').textContent=d.distributionCycles||'—'}catc
 
 // Wallet
 document.getElementById('floatingWallet').onclick=async()=>{
-if(window.solana?.isPhantom){try{const r=await window.solana.connect();window.location.href='dashboard.html?wallet='+r.publicKey.toString()}catch(e){}}
-else window.open('https://phantom.app','_blank')};
+  const provider=window.phantom?.solana||window.solana;
+  if(provider?.isPhantom){
+    try{const resp=await provider.connect();const addr=resp.publicKey.toString();window.location.href='dashboard.html?wallet='+addr}catch(err){console.error('Wallet connect failed:',err)}
+  }else{window.open('https://phantom.app/download','_blank')}
+};
 </script>
 </body>
 </html>
