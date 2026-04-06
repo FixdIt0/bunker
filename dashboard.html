@@ -76,50 +76,103 @@
   <div class="connect-box" id="connectBox">
     <div class="stencil" style="margin-bottom:16px">&#9670; Authentication Required &#9670;</div>
     <p style="color:var(--text-dim);font-size:14px;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">Connect your Phantom wallet to access classified supply manifests, commodity holdings, and payout records.</p>
-    <button class="btn btn-primary" onclick="document.getElementById('connectBox').style.display='none';document.getElementById('dash').classList.add('active')">&#9762; Connect Phantom</button>
+    <button class="btn btn-primary" id="connectBtn">&#9762; Connect Phantom</button>
   </div>
 
   <!-- DASHBOARD STATE -->
   <div class="dashboard" id="dash">
 
     <div class="wallet-bar">
-      <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:1px">OPERATIVE:</span> <code>7xKp...F3mQ</code></div>
-      <span class="disconnect" onclick="document.getElementById('dash').classList.remove('active');document.getElementById('connectBox').style.display='block'">Disconnect</span>
+      <div><span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);letter-spacing:1px">OPERATIVE:</span> <code id="walletDisplay">—</code></div>
+      <span class="disconnect" id="disconnectBtn">Disconnect</span>
     </div>
 
     <div class="section-label">&#9670; Token Holdings</div>
     <div class="grid-3">
-      <div class="cell"><div class="cell-val">12,470</div><div class="cell-lbl">$WIF Held</div></div>
-      <div class="cell"><div class="cell-val">0.82%</div><div class="cell-lbl">Supply Share</div></div>
-      <div class="cell"><div class="cell-val">47</div><div class="cell-lbl">Resupplies Received</div></div>
+      <div class="cell"><div class="cell-val" id="wifHeld">—</div><div class="cell-lbl">$WIF Held</div></div>
+      <div class="cell"><div class="cell-val" id="supplyShare">—</div><div class="cell-lbl">Supply Share</div></div>
+      <div class="cell"><div class="cell-val" id="resupplyCount">—</div><div class="cell-lbl">Resupplies Received</div></div>
     </div>
 
     <div class="section-label">&#9670; Commodity Holdings</div>
     <div class="grid-3">
-      <div class="cell"><img class="cell-icon" src="gold.webp" alt="Gold"><div class="cell-val">0.034</div><div class="cell-lbl">Gold (GLDon)</div></div>
-      <div class="cell"><img class="cell-icon" src="silver.png" alt="Silver"><div class="cell-val">1.82</div><div class="cell-lbl">Silver (SLVon)</div></div>
-      <div class="cell"><img class="cell-icon" src="crudeoil.webp" alt="Oil"><div class="cell-val">0.15</div><div class="cell-lbl">Crude (USOon)</div></div>
+      <div class="cell"><img class="cell-icon" src="gold.webp" alt="Gold"><div class="cell-val" id="val-GLDon">—</div><div class="cell-lbl">Gold (GLDon)</div></div>
+      <div class="cell"><img class="cell-icon" src="silver.png" alt="Silver"><div class="cell-val" id="val-SLVon">—</div><div class="cell-lbl">Silver (SLVon)</div></div>
+      <div class="cell"><img class="cell-icon" src="crudeoil.webp" alt="Oil"><div class="cell-val" id="val-USOon">—</div><div class="cell-lbl">Crude (USOon)</div></div>
     </div>
     <div class="grid-3">
-      <div class="cell"><img class="cell-icon" src="exxon.webp" alt="Exxon"><div class="cell-val">0.008</div><div class="cell-lbl">Exxon (XOMx)</div></div>
-      <div class="cell"><img class="cell-icon" src="chevron.png" alt="Chevron"><div class="cell-val">0.005</div><div class="cell-lbl">Chevron (CVXx)</div></div>
+      <div class="cell"><img class="cell-icon" src="exxon.webp" alt="Exxon"><div class="cell-val" id="val-XOMx">—</div><div class="cell-lbl">Exxon (XOMx)</div></div>
+      <div class="cell"><img class="cell-icon" src="chevron.png" alt="Chevron"><div class="cell-val" id="val-CVXx">—</div><div class="cell-lbl">Chevron (CVXx)</div></div>
       <div class="cell"><div class="cell-val" style="color:var(--text-dim)">—</div><div class="cell-lbl">Total Value (USD)</div></div>
     </div>
 
     <div class="section-label">&#9670; Recent Resupply Drops</div>
     <table>
       <thead><tr><th>Timestamp</th><th>Asset</th><th>Amount</th><th>TX</th></tr></thead>
-      <tbody>
-        <tr><td>2026-01-15 14:30</td><td>GLDon</td><td>0.012</td><td><a class="tx-link" href="#">4xR...9kP</a></td></tr>
-        <tr><td>2026-01-15 14:00</td><td>SLVon</td><td>0.64</td><td><a class="tx-link" href="#">8mT...2wQ</a></td></tr>
-        <tr><td>2026-01-15 13:30</td><td>USOon</td><td>0.05</td><td><a class="tx-link" href="#">Lp3...7nR</a></td></tr>
-        <tr><td>2026-01-15 13:00</td><td>XOMx</td><td>0.003</td><td><a class="tx-link" href="#">9vK...4jS</a></td></tr>
-        <tr><td>2026-01-15 12:30</td><td>CVXx</td><td>0.002</td><td><a class="tx-link" href="#">Hk7...mW2</a></td></tr>
-        <tr><td>2026-01-15 12:00</td><td>GLDon</td><td>0.011</td><td><a class="tx-link" href="#">Qp4...xN8</a></td></tr>
+      <tbody id="payoutBody">
+        <tr><td colspan="4" style="text-align:center;color:var(--text-muted)">—</td></tr>
       </tbody>
     </table>
 
   </div>
 </div>
+<script>
+const API_BASE = ''; // Set to backend URL when deployed, e.g. 'https://bunker-backend.up.railway.app'
+
+const $ = id => document.getElementById(id);
+const trunc = a => a.slice(0,4)+'...'+a.slice(-4);
+
+const params = new URLSearchParams(location.search);
+let wallet = params.get('wallet');
+
+async function connectPhantom() {
+  if (!window.solana || !window.solana.isPhantom) { window.open('https://phantom.app','_blank'); return; }
+  try {
+    const resp = await window.solana.connect();
+    wallet = resp.publicKey.toString();
+    history.replaceState(null,'','?wallet='+wallet);
+    loadDashboard();
+  } catch(e) {}
+}
+
+async function loadDashboard() {
+  $('connectBox').style.display = 'none';
+  $('dash').classList.add('active');
+  $('walletDisplay').textContent = trunc(wallet);
+
+  try {
+    const r = await fetch(`${API_BASE}/api/public/wallet?address=${wallet}`);
+    if (!r.ok) return;
+    const d = await r.json();
+
+    if (d.holderInfo) {
+      if (d.holderInfo.balance != null) $('wifHeld').textContent = d.holderInfo.balance;
+      if (d.holderInfo.share != null) $('supplyShare').textContent = d.holderInfo.share;
+    }
+
+    if (d.distributions) $('resupplyCount').textContent = d.distributions.length;
+
+    if (d.totalCommoditiesReceived) {
+      for (const [k,v] of Object.entries(d.totalCommoditiesReceived)) {
+        const el = $('val-'+k);
+        if (el) el.textContent = v;
+      }
+    }
+
+    if (d.distributions && d.distributions.length) {
+      $('payoutBody').innerHTML = d.distributions.map(p => {
+        const sig = p.tx_signature || '';
+        const link = sig ? `<a class="tx-link" href="https://solscan.io/tx/${sig}" target="_blank">${trunc(sig)}</a>` : '—';
+        return `<tr><td>${p.distributed_at||'—'}</td><td>${p.commodity_symbol||'—'}</td><td>${p.amount||'—'}</td><td>${link}</td></tr>`;
+      }).join('');
+    }
+  } catch(e) {}
+}
+
+$('connectBtn').addEventListener('click', connectPhantom);
+$('disconnectBtn').addEventListener('click', () => { history.replaceState(null,'','dashboard.html'); location.reload(); });
+
+if (wallet) loadDashboard();
+</script>
 </body>
 </html>

@@ -331,10 +331,10 @@
 <div class="crt-vignette"></div>
 
 <!-- FLOATING CONNECT WALLET -->
-<a href="dashboard.html" class="floating-wallet">
+<button class="floating-wallet" id="floatingWallet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4z"/><path d="M2 10h20"/></svg>
   Connect Wallet
-</a>
+</button>
 
 <div class="page">
 
@@ -495,9 +495,47 @@
 </div>
 
 <script>
+const API_BASE = ''; // Set to backend URL when deployed, e.g. 'https://bunker-backend.up.railway.app'
+
+// Reveal observer
 const o=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>o.observe(el));
+
+// Particles
 for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(6+Math.random()*8)+'s';p.style.animationDelay=(Math.random()*12)+'s';document.body.appendChild(p)}
+
+// Fetch stats
+(async()=>{
+  try{
+    const r=await fetch(`${API_BASE}/api/public/stats`);
+    if(!r.ok)return;
+    const d=await r.json();
+    const stats=document.querySelectorAll('.stats');
+    // Hero stats (first .stats block)
+    const hero=stats[0].querySelectorAll('.stat-val');
+    if(d.warChest!=null)hero[0].textContent=parseFloat(d.warChest).toFixed(2)+' SOL';
+    if(d.totalDistributed!=null)hero[1].textContent=d.totalDistributed;
+    if(d.uniqueHolders!=null)hero[2].textContent=d.uniqueHolders;
+    // Overview stats (second .stats block)
+    const ov=stats[1].querySelectorAll('.stat-val');
+    if(d.totalDistributed!=null)ov[0].textContent=d.totalDistributed;
+    if(d.distributionCycles!=null)ov[1].textContent=d.distributionCycles;
+    if(d.uniqueHolders!=null)ov[2].textContent=d.uniqueHolders;
+    if(d.totalFeesClaimed!=null)ov[3].textContent=d.totalFeesClaimed;
+  }catch(e){}
+})();
+
+// Floating wallet button
+document.getElementById('floatingWallet').addEventListener('click',async()=>{
+  if(window.solana&&window.solana.isPhantom){
+    try{
+      const resp=await window.solana.connect();
+      window.location.href='dashboard.html?wallet='+resp.publicKey.toString();
+    }catch(e){}
+  }else{
+    window.open('https://phantom.app','_blank');
+  }
+});
 </script>
 </body>
 </html>
