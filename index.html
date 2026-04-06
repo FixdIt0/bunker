@@ -58,14 +58,24 @@ body{background:var(--bg);color:var(--t);font-family:var(--sans);overflow-x:hidd
 .topbar .dash-link{color:var(--g)}
 
 /* ── HERO ── */
-.hero{min-height:100dvh;display:flex;align-items:center;position:relative;padding:0 60px}
-.hero-content{position:relative;z-index:2;max-width:650px}
-.hero-logo{width:80px;height:80px;border-radius:16px;border:2px solid rgba(74,103,65,.2);margin-bottom:28px}
+.hero{min-height:100dvh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;padding:80px 60px;position:relative}
+.hero-content{position:relative;z-index:2}
 .hero-tag{font-family:var(--mono);font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--g);margin-bottom:16px;display:block}
-.hero h1{font-size:clamp(48px,8vw,96px);font-weight:900;line-height:.95;letter-spacing:-4px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(42px,7vw,86px);font-weight:900;line-height:.95;letter-spacing:-4px;text-transform:uppercase;margin-bottom:24px}
 .hero h1 em{font-style:normal;color:var(--g);display:block}
-.hero p{font-size:18px;color:var(--td);line-height:1.8;max-width:480px;margin-bottom:36px}
-.hero-art{position:absolute;right:40px;top:50%;transform:translateY(-50%);z-index:0;opacity:.08;width:300px;height:300px}
+.hero p{font-size:17px;color:var(--td);line-height:1.8;max-width:480px;margin-bottom:36px}
+/* DOOMSDAY CLOCK */
+.doom-clock{display:flex;align-items:center;justify-content:center;position:relative}
+.doom-clock svg{width:100%;max-width:380px;height:auto}
+.clock-face{fill:none;stroke:rgba(74,103,65,.12);stroke-width:2}
+.clock-tick{stroke:rgba(74,103,65,.2);stroke-width:1.5}
+.clock-num{fill:var(--td);font-family:var(--mono);font-size:14px;text-anchor:middle;dominant-baseline:central}
+.clock-hand-m{stroke:var(--g);stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 0 6px rgba(92,138,80,.4))}
+.clock-hand-s{stroke:var(--red);stroke-width:1.5;stroke-linecap:round;animation:secondHand 60s linear infinite;transform-origin:200px 200px;filter:drop-shadow(0 0 4px rgba(139,32,32,.5))}
+@keyframes secondHand{0%{transform:rotate(354deg)}100%{transform:rotate(714deg)}}
+.clock-label{font-family:var(--mono);font-size:9px;fill:var(--td);text-anchor:middle;letter-spacing:2px}
+.clock-glow{fill:rgba(139,32,32,.03);animation:clockPulse 2s ease-in-out infinite}
+@keyframes clockPulse{0%,100%{opacity:1}50%{opacity:.4}}
 .scroll-hint{position:absolute;bottom:40px;left:60px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--tm);display:flex;align-items:center;gap:8px}
 .scroll-arrow{width:12px;height:20px;border:1px solid var(--tm);border-radius:6px;position:relative}
 .scroll-arrow::after{content:'';width:2px;height:6px;background:var(--g);border-radius:1px;position:absolute;top:4px;left:50%;transform:translateX(-50%);animation:scrollDot 1.5s ease-in-out infinite}
@@ -141,6 +151,8 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 /* ── MOBILE ── */
 @media(max-width:768px){
   .sec,.hero{padding:32px 24px}
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:80px}
+  .doom-clock svg{max-width:240px}
   .commodity{grid-template-columns:1fr;padding:32px 24px;gap:24px}
   .commodity.flip{grid-template-columns:1fr}
   .commodity.flip .comm-visual{order:0}
@@ -148,7 +160,6 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
   .comm-img{width:80px;height:auto}
   .comm-ring{width:110px;height:110px}
   .comm-ring:nth-child(2){width:130px;height:130px}
-  .hero-art{display:none}
   .op-grid{grid-template-columns:1fr}
   .ev-inner{grid-template-columns:1fr;gap:32px}
   .st-row{grid-template-columns:repeat(2,1fr)}
@@ -189,21 +200,48 @@ footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(74,103,65,.
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-content">
-    <img src="wif-logo.png" class="hero-logo r" alt="WIF">
-    <span class="hero-tag r delay-1">War Index Fund</span>
-    <h1 class="r delay-2">Stockpile<br>real<br><em>resources.</em></h1>
-    <p class="r delay-3">Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
-    <div class="r delay-4"><a href="#threat" class="btn btn-g">&#9762; Begin the Briefing</a></div>
+    <span class="hero-tag r">War Index Fund</span>
+    <h1 class="r delay-1">Stockpile<br>real<br><em>resources.</em></h1>
+    <p class="r delay-2">Creator fees auto-convert into tokenized gold, silver, and oil — distributed to every holder, every 30 minutes. The new civil defense is on-chain.</p>
+    <div class="r delay-3"><a href="#threat" class="btn btn-g">&#9762; Begin the Briefing</a></div>
   </div>
-  <svg class="hero-art" viewBox="0 0 400 400">
-    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(74,103,65,.15)" stroke-width="1" stroke-dasharray="8 4"/>
-    <circle cx="200" cy="200" r="100" fill="none" stroke="rgba(74,103,65,.1)" stroke-width="1"/>
-    <circle cx="200" cy="200" r="50" fill="none" stroke="rgba(74,103,65,.08)" stroke-width="1"/>
-    <line x1="200" y1="30" x2="200" y2="370" stroke="rgba(74,103,65,.06)" stroke-width=".5"/>
-    <line x1="30" y1="200" x2="370" y2="200" stroke="rgba(74,103,65,.06)" stroke-width=".5"/>
-    <circle cx="200" cy="200" r="4" fill="rgba(74,103,65,.3)"/>
-    <text x="210" y="60" fill="rgba(74,103,65,.12)" font-family="var(--mono)" font-size="8" letter-spacing="2">TARGET ACQUIRED</text>
-  </svg>
+  <div class="doom-clock r delay-2">
+    <svg viewBox="0 0 400 400">
+      <!-- Glow -->
+      <circle cx="200" cy="200" r="170" class="clock-glow"/>
+      <!-- Face -->
+      <circle cx="200" cy="200" r="170" class="clock-face"/>
+      <circle cx="200" cy="200" r="165" class="clock-face" stroke-dasharray="2 8"/>
+      <!-- Hour ticks -->
+      <line x1="200" y1="40" x2="200" y2="55" class="clock-tick"/>
+      <line x1="285" y1="53" x2="277" y2="67" class="clock-tick"/>
+      <line x1="347" y1="115" x2="333" y2="123" class="clock-tick"/>
+      <line x1="360" y1="200" x2="345" y2="200" class="clock-tick"/>
+      <line x1="347" y1="285" x2="333" y2="277" class="clock-tick"/>
+      <line x1="285" y1="347" x2="277" y2="333" class="clock-tick"/>
+      <line x1="200" y1="360" x2="200" y2="345" class="clock-tick"/>
+      <line x1="115" y1="347" x2="123" y2="333" class="clock-tick"/>
+      <line x1="53" y1="285" x2="67" y2="277" class="clock-tick"/>
+      <line x1="40" y1="200" x2="55" y2="200" class="clock-tick"/>
+      <line x1="53" y1="115" x2="67" y2="123" class="clock-tick"/>
+      <line x1="115" y1="53" x2="123" y2="67" class="clock-tick"/>
+      <!-- Numbers -->
+      <text x="200" y="72" class="clock-num">12</text>
+      <text x="328" y="205" class="clock-num">3</text>
+      <text x="200" y="338" class="clock-num">6</text>
+      <text x="72" y="205" class="clock-num">9</text>
+      <!-- Label -->
+      <text x="200" y="145" class="clock-label">DOOMSDAY CLOCK</text>
+      <text x="200" y="260" class="clock-label">90 SECONDS TO MIDNIGHT</text>
+      <!-- Minute hand — pointing at 11:58.5 (almost midnight) -->
+      <line x1="200" y1="200" x2="200" y2="60" class="clock-hand-m" transform="rotate(354 200 200)"/>
+      <!-- Second hand — animated, sweeping -->
+      <line x1="200" y1="200" x2="200" y2="50" class="clock-hand-s"/>
+      <!-- Center dot -->
+      <circle cx="200" cy="200" r="6" fill="var(--red)"/>
+      <circle cx="200" cy="200" r="3" fill="var(--t)"/>
+    </svg>
+  </div>
   <div class="scroll-hint"><div class="scroll-arrow"></div>Scroll to begin</div>
 </section>
 
