@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$WIF — Transparency Report</title>
+<link rel="icon" type="image/png" href="wif-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0b08;--s1:#111210;--s2:#181a15;
+  --border:rgba(74,103,65,.1);--border-hard:rgba(74,103,65,.18);
+  --g:#5c8a50;--gd:#4a6741;--gb:rgba(74,103,65,.06);
+  --red:#8b2020;
+  --t:#e0dbd0;--td:#9a9485;--tm:#4a4540;
+  --mono:'JetBrains Mono',monospace;--sans:'Outfit',sans-serif;
+}
+body{background:var(--bg);color:var(--t);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(ellipse at 30% 80%,rgba(60,45,20,.08) 0%,transparent 50%),radial-gradient(ellipse at 70% 20%,rgba(40,50,30,.06) 0%,transparent 40%)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(74,103,65,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(74,103,65,.02) 1px,transparent 1px);background-size:80px 80px}
+.grain{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vig{position:fixed;inset:0;z-index:998;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.5) 100%)}
+
+.page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:40px 24px 80px}
+.back{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--td);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:32px}
+.back:hover{color:var(--t)}
+.label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--g)}
+h1{font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:-.5px;text-transform:uppercase;margin:8px 0 32px}
+
+.section{margin-bottom:48px}
+.section-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+
+/* Treasury card */
+.treasury{padding:28px;background:var(--s1);border:1px solid var(--border);border-left:3px solid var(--g);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.treasury code{font-family:var(--mono);font-size:13px;color:var(--g);word-break:break-all}
+.treasury .bal{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--g)}
+.treasury .bal-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--td);margin-top:2px}
+.sol-link{color:var(--g);text-decoration:none}
+.sol-link:hover{text-decoration:underline}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+th{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-hard);color:var(--g);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--td)}
+tr:hover td{background:var(--gb)}
+.empty-row td{text-align:center;color:var(--tm)}
+
+/* Status badges */
+.badge{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;display:inline-block}
+.badge-ok{color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+.badge-err{color:#f87171;border:1px solid rgba(248,113,113,.2)}
+
+@media(max-width:768px){
+  .page{padding:24px 16px 60px}
+  .treasury{flex-direction:column;align-items:flex-start}
+  table{font-size:11px}
+  th,td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div><div class="vig"></div>
+<div class="page">
+
+<a href="index.html" class="back"><img src="wif-logo.png" style="width:20px;height:20px;border-radius:4px"> &#9664; Back to War Index Fund</a>
+
+<div class="label">&#9762; Full Disclosure</div>
+<h1>Transparency Report</h1>
+
+<!-- TREASURY WALLET -->
+<div class="section">
+  <div class="section-label">&#9670; Treasury Wallet</div>
+  <div class="treasury">
+    <div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--td);letter-spacing:1px;margin-bottom:4px">ADDRESS</div>
+      <a class="sol-link" id="treasuryLink" href="#" target="_blank"><code id="treasuryAddr">TBA</code></a>
+    </div>
+    <div style="text-align:right">
+      <div class="bal" id="treasuryBal">—</div>
+      <div class="bal-lbl">SOL Balance</div>
+    </div>
+  </div>
+</div>
+
+<!-- RECENT PURCHASES -->
+<div class="section">
+  <div class="section-label">&#9670; Recent Commodity Purchases</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Timestamp</th><th>Commodity</th><th>SOL Spent</th><th>Tokens Received</th><th>TX</th></tr></thead>
+    <tbody id="purchasesBody"><tr class="empty-row"><td colspan="5">—</td></tr></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- RECENT DISTRIBUTIONS -->
+<div class="section">
+  <div class="section-label">&#9670; Recent Distributions</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Timestamp</th><th>Holder</th><th>Commodity</th><th>Amount</th><th>TX</th></tr></thead>
+    <tbody id="distBody"><tr class="empty-row"><td colspan="5">—</td></tr></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- CRON RUN HISTORY -->
+<div class="section">
+  <div class="section-label">&#9670; Cron Run History</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Started At</th><th>Status</th><th>Fees Claimed</th><th>Swaps</th><th>Distributions</th></tr></thead>
+    <tbody id="cronBody"><tr class="empty-row"><td colspan="5">—</td></tr></tbody>
+  </table>
+  </div>
+</div>
+
+<!-- BALANCE HISTORY -->
+<div class="section">
+  <div class="section-label">&#9670; Treasury Balance History</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Timestamp</th><th>Balance (SOL)</th></tr></thead>
+    <tbody id="balHistBody"><tr class="empty-row"><td colspan="2">—</td></tr></tbody>
+  </table>
+  </div>
+</div>
+
+</div>
+
+<script>
+const API_BASE = 'https://bunker-production-62d9.up.railway.app';
+const trunc = a => a.slice(0,4)+'...'+a.slice(-4);
+const txLink = sig => sig ? `<a class="sol-link" href="https://solscan.io/tx/${sig}" target="_blank">${trunc(sig)}</a>` : '—';
+const walletLink = addr => addr ? `<a class="sol-link" href="https://solscan.io/account/${addr}" target="_blank">${trunc(addr)}</a>` : '—';
+const fmt = ts => ts ? new Date(ts).toLocaleString() : '—';
+
+async function load() {
+  // Treasury balance from /api/public/stats
+  try {
+    const r = await fetch(API_BASE + '/api/public/stats');
+    if (r.ok) {
+      const d = await r.json();
+      if (d.warChest != null) document.getElementById('treasuryBal').textContent = d.warChest.toFixed(4);
+      if (d.treasuryWallet) {
+        document.getElementById('treasuryAddr').textContent = d.treasuryWallet;
+        document.getElementById('treasuryLink').href = 'https://solscan.io/account/' + d.treasuryWallet;
+      }
+    }
+  } catch(e) {}
+
+  // Everything else from /api/public/transparency
+  try {
+    const r = await fetch(API_BASE + '/api/public/transparency');
+    if (!r.ok) return;
+    const d = await r.json();
+
+    if (d.purchases?.length) {
+      document.getElementById('purchasesBody').innerHTML = d.purchases.map(p =>
+        `<tr><td>${fmt(p.timestamp)}</td><td>${p.commodity||'—'}</td><td>${p.sol_spent??'—'}</td><td>${p.tokens_received??'—'}</td><td>${txLink(p.tx_signature)}</td></tr>`
+      ).join('');
+    }
+
+    if (d.distributions?.length) {
+      document.getElementById('distBody').innerHTML = d.distributions.map(p =>
+        `<tr><td>${fmt(p.timestamp)}</td><td>${walletLink(p.wallet)}</td><td>${p.commodity||'—'}</td><td>${p.amount??'—'}</td><td>${txLink(p.tx_signature)}</td></tr>`
+      ).join('');
+    }
+
+    if (d.cronRuns?.length) {
+      document.getElementById('cronBody').innerHTML = d.cronRuns.map(c => {
+        const badge = c.status === 'success'
+          ? '<span class="badge badge-ok">success</span>'
+          : '<span class="badge badge-err">error</span>';
+        return `<tr><td>${fmt(c.started_at)}</td><td>${badge}</td><td>${c.fees_claimed??'—'}</td><td>${c.swaps_count??'—'}</td><td>${c.distributions_count??'—'}</td></tr>`;
+      }).join('');
+    }
+
+    if (d.balanceHistory?.length) {
+      document.getElementById('balHistBody').innerHTML = d.balanceHistory.map(b =>
+        `<tr><td>${fmt(b.timestamp)}</td><td>${b.balance??'—'}</td></tr>`
+      ).join('');
+    }
+  } catch(e) {}
+}
+
+load();
+</script>
+</body>
+</html>
