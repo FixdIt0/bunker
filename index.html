@@ -52,22 +52,37 @@
 
   /* BARBED WIRE SVG DIVIDER */
   .barbed-wire{
-    width:100%;height:20px;opacity:0.12;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='20' viewBox='0 0 200 20'%3E%3Cpath d='M0 10h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h15l3-4 4 8 4-8 3 4h20' stroke='%234a6741' fill='none' stroke-width='1.5'/%3E%3Ccircle cx='18' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='63' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='108' cy='10' r='2' fill='%234a6741'/%3E%3Ccircle cx='153' cy='10' r='2' fill='%234a6741'/%3E%3C/svg%3E") repeat-x center;
+    width:100%;height:24px;opacity:0.2;position:relative;overflow:hidden;
   }
+  .barbed-wire svg{width:100%;height:24px}
 
   /* MUD SPLATTER OVERLAY */
   .mud-overlay{
-    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.04;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='6' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23m)'/%3E%3C/svg%3E");
-    mix-blend-mode:overlay;
+    position:fixed;inset:0;z-index:0;pointer-events:none;
   }
+  .mud-overlay svg{width:100%;height:100%;opacity:0.06}
 
   /* SCRATCHES OVERLAY */
   .scratches{
-    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.025;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cline x1='20' y1='0' x2='80' y2='300' stroke='%23fff' stroke-width='0.5'/%3E%3Cline x1='120' y1='0' x2='200' y2='300' stroke='%23fff' stroke-width='0.3'/%3E%3Cline x1='250' y1='0' x2='150' y2='300' stroke='%23fff' stroke-width='0.4'/%3E%3Cline x1='0' y1='80' x2='300' y2='120' stroke='%23fff' stroke-width='0.3'/%3E%3Cline x1='0' y1='200' x2='300' y2='240' stroke='%23fff' stroke-width='0.5'/%3E%3C/svg%3E");
+    position:fixed;inset:0;z-index:0;pointer-events:none;
   }
+  .scratches svg{width:100%;height:100%;opacity:0.035}
+
+  /* FLOATING CONNECT WALLET */
+  .floating-wallet{
+    position:fixed;bottom:24px;right:24px;z-index:100;
+    display:flex;align-items:center;gap:8px;
+    padding:12px 20px;background:var(--amber);color:var(--bg);
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:2px;text-transform:uppercase;
+    border:none;cursor:crosshair;
+    box-shadow:0 4px 24px rgba(0,0,0,0.5),0 0 12px rgba(74,103,65,0.15);
+    transition:all .2s;
+    text-decoration:none;
+  }
+  .floating-wallet:hover{background:var(--amber-bright);transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,0,0,0.6),0 0 20px rgba(74,103,65,0.2)}
+  .floating-wallet:active{transform:translateY(0)}
+  .floating-wallet svg{width:16px;height:16px}
 
   /* ROUGH EDGE SECTIONS */
   .rough-top{
@@ -310,15 +325,22 @@
 <body>
 <div class="hero-glow"></div>
 <div class="scanlines"></div>
-<div class="mud-overlay"></div>
-<div class="scratches"></div>
+<div class="mud-overlay"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="mud"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="6" seed="5"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#mud)"/></svg></div>
+<div class="scratches"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="none"><line x1="30" y1="0" x2="120" y2="500" stroke="#fff" stroke-width="0.5"/><line x1="180" y1="0" x2="300" y2="500" stroke="#fff" stroke-width="0.3"/><line x1="350" y1="0" x2="220" y2="500" stroke="#fff" stroke-width="0.4"/><line x1="450" y1="0" x2="400" y2="500" stroke="#fff" stroke-width="0.3"/><line x1="0" y1="100" x2="500" y2="150" stroke="#fff" stroke-width="0.3"/><line x1="0" y1="280" x2="500" y2="320" stroke="#fff" stroke-width="0.4"/><line x1="0" y1="420" x2="500" y2="380" stroke="#fff" stroke-width="0.3"/></svg></div>
 <div class="crt-vignette"></div>
+
+<!-- FLOATING CONNECT WALLET -->
+<a href="#intel" class="floating-wallet" onclick="document.getElementById('walletConnectBox').style.display='none';document.getElementById('walletStatus').classList.add('active')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4z"/><path d="M2 10h20"/></svg>
+  Connect Wallet
+</a>
+
 <div class="page">
 
 <!-- ALERT -->
 <div class="alert-bar">&#9762; Civil Defense Broadcast — Resource hoarding detected across Eastern Bloc — Secure your reserves &#9762;</div>
 
-<div class="barbed-wire"></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
 
 <div class="ticker">
   <div class="ticker-track">
@@ -371,7 +393,7 @@
   </div>
 </section>
 
-<div class="barbed-wire"></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
 
 <div class="stats reveal">
   <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">War Chest</div></div>
@@ -380,7 +402,7 @@
   <div class="stat"><div class="stat-val flash-val">30:00</div><div class="stat-lbl">Next Resupply</div></div>
 </div>
 
-<div class="barbed-wire"></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
 
 <div class="divider" style="margin:80px auto"></div>
 
@@ -406,7 +428,7 @@
   </div>
 </section>
 
-<div class="barbed-wire"></div>
+<div class="barbed-wire"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h40l4-6 6 12 6-12 4 6h200" stroke="#4a6741" fill="none" stroke-width="1.5"/><circle cx="50" cy="12" r="3" fill="#4a6741"/><circle cx="160" cy="12" r="3" fill="#4a6741"/><circle cx="270" cy="12" r="3" fill="#4a6741"/><circle cx="380" cy="12" r="3" fill="#4a6741"/><circle cx="490" cy="12" r="3" fill="#4a6741"/><circle cx="600" cy="12" r="3" fill="#4a6741"/><circle cx="710" cy="12" r="3" fill="#4a6741"/><circle cx="820" cy="12" r="3" fill="#4a6741"/><circle cx="930" cy="12" r="3" fill="#4a6741"/></svg></div>
 
 <section class="ca-section reveal">
   <div class="stencil" style="margin-bottom:8px">&#9670; Classified &#9670;</div>
